@@ -1,0 +1,13 @@
+current directory: /Users/lucdelrio/Documents/projects/buchy/zecat-products-api/vendor/bundle/ruby/2.7.0/gems/json-2.7.2/ext/json
+/Users/lucdelrio/.rbenv/versions/2.7.8/bin/ruby -I /Users/lucdelrio/.rbenv/versions/2.7.8/lib/ruby/2.7.0 -r ./siteconf20240702-92585-kpgmb5.rb extconf.rb
+creating Makefile
+
+current directory: /Users/lucdelrio/Documents/projects/buchy/zecat-products-api/vendor/bundle/ruby/2.7.0/gems/json-2.7.2/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/lucdelrio/Documents/projects/buchy/zecat-products-api/vendor/bundle/ruby/2.7.0/gems/json-2.7.2/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/lucdelrio/Documents/projects/buchy/zecat-products-api/vendor/bundle/ruby/2.7.0/gems/json-2.7.2/ext/json
+make "DESTDIR=" install

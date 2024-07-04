@@ -1,0 +1,26 @@
+AllCops:
+  TargetRubyVersion: 2.7.8
+
+  Exclude:
+    - db/**/*
+    - bin/*
+    - config/**/*
+    - config.ru
+
+Documentation:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+
+Style/ClassAndModuleChildren:
+  Exclude: 
+    - test/test_helper.rb
