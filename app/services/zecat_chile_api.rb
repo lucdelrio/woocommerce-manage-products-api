@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class ZecatChileApi
-  ZECAT_ENDPOINT = 'https://api.zecat.cl'.freeze
-
+  ZECAT_ENDPOINT = ENV.fetch('ZECAT_CHILE_ENDPOINT')
 
   class << self
     def get_generic_product

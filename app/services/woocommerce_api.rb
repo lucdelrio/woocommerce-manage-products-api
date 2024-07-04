@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class WoocommerceApi
-  WOOCOMMERCE_ENDPOINT = 'https://pruebas.weblocal.top/wp-json/wc/v3'.freeze
-  CONSUMER_KEY = 'ck_c44ea9194b24a367c9f1d43f5eb3b6602932323a'.freeze
-  CONSUMER_SECRET = 'cs_f8271c29ca83f6b4e692fc879234f90bd8b35820'.freeze
+  WOOCOMMERCE_ENDPOINT = ENV.fetch('WOOCOMMERCE_ENDPOINT')
+  CONSUMER_KEY = ENV.fetch('WOOCOMMERCE_CONSUMER_KEY')
+  CONSUMER_SECRET = ENV.fetch('WOOCOMMERCE_CONSUMER_SECRET')
 
   class << self
 

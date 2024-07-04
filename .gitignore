@@ -23,7 +23,10 @@
 
 .byebug_history
 
-.DS_Store
-
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+.idea/
+*.swp
+.DS_Store
+.env
+dump.rdb

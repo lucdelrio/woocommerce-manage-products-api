@@ -2,6 +2,6 @@
 
 class ZecatArgentinaApi
   class BaseZecatArgentinaApi
-    ZECAT_ENDPOINT = 'https://api.zecat.com'.freeze
+    ZECAT_ENDPOINT = ENV.fetch('ZECAT_ARGENTINA_ENDPOINT')
   end
 end
