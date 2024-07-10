@@ -65,10 +65,11 @@ class WoocommerceApi
     end
 
     def create_product_with_variations(product)
-      product_hash = ZecatArgentinaApi::Products.fill_product(product)
+      full_product = ZecatArgentinaApi::Products.get_generic_product_by_id(product.dig('id')).dig('generic_product')
+      product_hash = ZecatArgentinaApi::Products.fill_product(full_product)
       response = create_product(product_hash)
-      product.dig('products').each do |variation|
-        product_variation = ZecatArgentinaApi::Products.fill_variation(product, variation)
+      full_product.dig('products').each do |variation|
+        product_variation = ZecatArgentinaApi::Products.fill_variation(full_product, variation)
         create_product_variation(response.dig('id'), product_variation)
       end
 

@@ -49,11 +49,6 @@ module ZecatArgentinaApi
           # short_description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
           categories: add_categories(product),
           images: fill_images_list(product.dig('images')),
-          dimentions: {
-            length: product.dig('length'),
-            width: product.dig('width'),
-            height: product.dig('height')
-          },
           attributes: [
             # Evaluate to crate variations for size, color, et.
             {
@@ -99,6 +94,12 @@ module ZecatArgentinaApi
           manage_stock: true,
           # stock: variation.dig('stock'),
           stock_quantity: variation.dig('stock'),
+          weight: product.dig('dimensions', 'weight').to_s,
+          dimensions: {
+            length: product.dig('dimensions', 'length').to_s,
+            width: product.dig('dimensions', 'width').to_s,
+            height: product.dig('dimensions', 'height').to_s
+          },
           attributes: [
             {
               id: 2,
