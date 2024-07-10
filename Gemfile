@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'faraday', '~> 0.15.4'
+# gem 'faraday', '~> 2.8.1'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.66.0'
   gem 'vcr', '~> 4.0'
   gem 'webmock', '~> 3.5.1'
+  gem 'dotenv-rails', '~> 2.7.1'
 end
 
 group :development do

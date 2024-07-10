@@ -30,3 +30,6 @@
 .DS_Store
 .env
 dump.rdb
+
+/vendor
+tmp/*

@@ -1,31 +1,42 @@
 # frozen_string_literal: true
 
-class ZecatArgentinaApi
-  class Families << BaseZecatArgentinaApi
+module ZecatArgentinaApi
+  class Families < ZecatArgentinaApi::Base
     class << self
       def get_categories
-        url = "#{ZECAT_ENDPOINT}/categories"
+        url = "#{ZECAT_ENDPOINT}/family"
         response = HTTParty.get(url)
-        json_categories = JSON.parse(response.body)
+        JSON.parse(response.body).dig('families')
+      end
 
-        fill_categories_hash(json_categories['families'])
+      def get_category_by_description(description)
+        categories = get_categories
+        categories.each do |category|
+          return category if category.dig('description') == description
+        end
+
+        nil
       end
 
       def fill_categories_hash(categories)
         categories_hash = []
 
         categories.each do |category|
-          categories_hash << {
-            :name => category['title'],
-            :description => category['description'],
-            :slug => category['url'][1..category['url'].length],
-            # :image => {
-            #   :src => category['icon_url']
-            # }
-          }
+          categories_hash << category_hash(category)
         end
 
         categories_hash
+      end
+
+      def category_hash(category)
+        {
+          :name => category.dig('title'),
+          :description => category.dig('description'),
+          :slug => category.dig('url')[1..category['url'].length],
+          # :image => {
+          #   :src => category['icon_url']
+          # }
+        }
       end
 
       ## Imagen INVALIDA
