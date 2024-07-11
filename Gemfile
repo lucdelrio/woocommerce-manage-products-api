@@ -25,10 +25,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
-gem 'woocommerce_api', '~> 1.4'
-
-gem 'woocommerce'
-
+gem 'httparty', '~> 0.22.0'
 
 gem 'sidekiq-cron'
 
