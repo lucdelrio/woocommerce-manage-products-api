@@ -24,6 +24,11 @@ module ZecatArgentinaApi
         # fill_products_hash(json_products['generic_products'])
       end
 
+      # Variante genérica
+      # product_list = ZecatArgentinaApi::Products.get_generic_product_by_family('64', '2', '5')
+      # list = product_list.dig('generic_products')
+      # Ropa
+      # ZecatArgentinaApi::Products.get_generic_product_by_family('128', '1', '5')
       def get_generic_product_by_family(family_id, page_number, limit)
         url = "#{ZECAT_ENDPOINT}/generic_product?families[]=#{family_id}&page=#{page_number}&limit=#{limit}"
         response = HTTParty.get(url)
@@ -48,19 +53,8 @@ module ZecatArgentinaApi
           description: product.dig('description'),
           # short_description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
           categories: add_categories(product),
-          images: fill_images_list(product.dig('images')),
-          attributes: [
-            # Evaluate to crate variations for size, color, et.
-            {
-              id: 2,
-              # name: "Variante",
-              # slug: "pa_variante",
-              visible: true,
-              variation: true,
-              # position: 0,
-              options: variation_names(product.dig('products'))
-            }
-          ]
+          # images: fill_images_list(product.dig('images')),
+          attributes: variation_names(product.dig('products'))
           # tags: product.dig('tag')
         }
       end
@@ -84,8 +78,6 @@ module ZecatArgentinaApi
       end
 
       def fill_variation(product, variation)
-        description = variation_name(variation)
-        create_option(description)
         {
           regular_price: product.dig('price').to_s,
           price: product.dig('price').to_s,
@@ -100,41 +92,76 @@ module ZecatArgentinaApi
             width: product.dig('dimensions', 'width').to_s,
             height: product.dig('dimensions', 'height').to_s
           },
-          attributes: [
-            {
-              id: 2,
-              # name: "Variante",
-              # slug: "pa_variante",
-              # visible: true,
-              # variation: true,
-              option: description
-            }
-          ]
+          attributes: fill_variation_attributes(variation)
         }
       end
 
-      def variation_name(variation)
+      def generic_variation_name(variation)
         description = variation.dig('element_description_1')
         description = "#{description} / #{variation.dig('element_description_2')}" if variation.dig('element_description_2')&.match?(/[a-z]/)
         description = "#{description} / #{variation.dig('element_description_3')}" if variation.dig('element_description_3')&.match?(/[a-z]/)
         description
       end
 
+      #  [[{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"X Small"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"Small"}],
+      #  [{:id=>5, :option=>"Gris Oscuro"}, {:id=>3, :option=>"Large"}],
+      #  [{:id=>5, :option=>"Gris Oscuro"}, {:id=>3, :option=>"Medium"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"Large"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"XX Large"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"X Large"}],
+      #  [{:id=>5, :option=>"Gris Oscuro"}, {:id=>3, :option=>"Small"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"Medium"}],
+      #  [{:id=>5, :option=>"Gris Oscuro"}, {:id=>3, :option=>"X Small"}],
+      #  [{:id=>5, :option=>"Gris Oscuro"}, {:id=>3, :option=>"X Large"}],
+      #  [{:id=>5, :option=>"Gris Oscuro"}, {:id=>3, :option=>"XX Large"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"3 X Large"}],
+      #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"4 X Large"}]]
+
+
+      # [{
+      #   "id": 3,
+      #   "name": "Talle",
+      #   "slug": "pa_talle",
+      #   "position": 1,
+      #   "visible": true,
+      #   "variation": true,
+      #   "options": [
+      #       "L",
+      #       "M",
+      #       "S"
+      #   ]
+      # }]
       def variation_names(variations)
-        options = []
+        variation_attributes = []
+        options_list = []
 
         variations.each do |variation|
-          options << variation_name(variation)
+          variation_attributes << ZecatArgentinaApi::Products.fill_variation_attributes(variation)
         end
 
-        puts 'Variation Names'
-        puts options
-        options
+        if variation_attributes.first.length == 1
+          options_list << variation_attributes_for_product(variation_attributes.first[0][:id])
+          options_list[0][:options] << variation_attributes.first[0][:option]
+          return options_list
+        end
+
+        variation_attributes.first.each do |option|
+          options_list << variation_attributes_for_product(option[:id])
+        end
+
+        variation_attributes.each do |color, size|
+          options_list.each do |option|
+            option[:options] << color[:option] if option[:id] == color[:id] && !(option[:options].include?(color[:option]))
+            option[:options] << size[:option] if option[:id] == size[:id] && !(option[:options].include?(size[:option]))
+          end
+        end
+
+        options_list
       end
 
-      def create_option(description)
-        # WoocommerceApi.create_product_attribute_term(attribute_id)
-        terms = WoocommerceApi.get_product_attribute_terms_by_attribute_id('2')
+      def create_option(product_attribute_id, description)
+        terms = WoocommerceApi.get_product_attribute_terms_by_attribute_id(product_attribute_id)
         term = WoocommerceApi.get_term_by_name(terms, description)
 
         return if term.present?
@@ -145,7 +172,53 @@ module ZecatArgentinaApi
         body = {
           name: description
         }
-        WoocommerceApi.create_product_attribute_term('2', body)
+        response = WoocommerceApi.create_product_attribute_term(product_attribute_id, body)
+        return JSON.parse(response.body) if response.success?
+
+        WoocommerceApi.get_product_attribute_terms_by_attribute_id_and_term_id(product_attribute_id, JSON.parse(response.body)['data']['resource_id'])
+      end
+
+      def fill_variation_attributes(variation)
+        response = []
+        if variation.dig('size').empty? && variation.dig('color').empty?
+          product_attribute = WoocommerceApi.find_or_create_product_attribute_by_name('Variante')
+          create_option(product_attribute.dig('id'), generic_variation_name(variation))
+
+          response << variation_attribute(product_attribute, generic_variation_name(variation))
+        else
+          product_attribute_color = WoocommerceApi.find_or_create_product_attribute_by_name('Color')
+          create_option(product_attribute_color.dig('id'), variation.dig('color'))
+          product_attribute_size = WoocommerceApi.find_or_create_product_attribute_by_name('Talle')
+          create_option(product_attribute_size.dig('id'), variation.dig('size'))
+
+          response << variation_attribute(product_attribute_color, variation.dig('color'))
+          response << variation_attribute(product_attribute_size, variation.dig('size'))
+        end
+
+        response
+      end
+
+      def variation_attribute(product_attribute, option)
+        {
+          id: product_attribute.dig('id'),
+          # name: "Variante",
+          # slug: "pa_variante",
+          # visible: true,
+          # variation: true,
+          option: option
+        }
+      end
+
+      def variation_attributes_for_product(id)
+        {
+          id: id,
+          # name: "Variante",
+          # slug: "pa_variante",
+          visible: true,
+          variation: true,
+          # position: 0,
+          options: []
+        }
       end
 
       def fill_images_list(images_list)
