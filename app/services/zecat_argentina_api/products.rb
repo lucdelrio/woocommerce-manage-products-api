@@ -25,11 +25,11 @@ module ZecatArgentinaApi
       end
 
       # Variante genérica
-      # product_list = ZecatArgentinaApi::Products.get_generic_product_by_family('64', '2', '5')
+      # product_list = ZecatArgentinaApi::Products.get_generic_product_by_family_with_pages('64', '2', '5')
       # list = product_list.dig('generic_products')
       # Ropa
-      # ZecatArgentinaApi::Products.get_generic_product_by_family('128', '1', '5')
-      def get_generic_product_by_family(family_id, page_number, limit)
+      # ZecatArgentinaApi::Products.get_generic_product_by_family_with_pages('128', '1', '5')
+      def get_generic_product_by_family_with_pages(family_id, page_number, limit)
         url = "#{ZECAT_ENDPOINT}/generic_product?families[]=#{family_id}&page=#{page_number}&limit=#{limit}"
         response = HTTParty.get(url)
 
@@ -135,6 +135,8 @@ module ZecatArgentinaApi
       def variation_names(variations)
         variation_attributes = []
         options_list = []
+
+        return if variations.empty?
 
         variations.each do |variation|
           variation_attributes << ZecatArgentinaApi::Products.fill_variation_attributes(variation)

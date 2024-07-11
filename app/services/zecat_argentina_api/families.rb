@@ -18,6 +18,15 @@ module ZecatArgentinaApi
         nil
       end
 
+      def get_category_by_name(name)
+        categories = get_categories
+        categories.each do |category|
+          return category if category.dig('name') == name
+        end
+
+        nil
+      end
+
       def fill_categories_hash(categories)
         categories_hash = []
 
