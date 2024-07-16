@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  namespace :api do
-    namespace :v1, defaults: { format: 'json' } do
-      resources :employees, only: [:index, :show]
-      resources :departments, only: [:index, :show]
-      resources :offices, only: [:index, :show]
-    end
-  end
+  mount Sidekiq::Web, at: '/sidekiq'
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
+  root to: redirect('/admin')
 end

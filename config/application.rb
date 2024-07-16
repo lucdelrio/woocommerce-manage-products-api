@@ -19,11 +19,12 @@ Bundler.require(*Rails.groups)
 module ZecatProductsApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.1
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_glide_api_session'
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_woocommerce_manage_products_api_session'
+    config.filter_parameters << :password
   end
 end

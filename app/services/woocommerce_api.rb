@@ -136,11 +136,22 @@ class WoocommerceApi
     def create_category(category)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/categories?consumer_key=#{CONSUMER_KEY}&consumer_secret=#{CONSUMER_SECRET}"
 
-      HTTParty.post( url, body: category )
+      response = HTTParty.post( url, body: category )
+      JSON.parse(response.body)
       # response = HTTParty.post( url, body: category )
       # return if response.success?
 
       # raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code)
+    end
+
+    def update_category(id, category)
+      url = "#{WOOCOMMERCE_ENDPOINT}/products/categories/#{id}?consumer_key=#{CONSUMER_KEY}&consumer_secret=#{CONSUMER_SECRET}"
+      response = HTTParty.put(url, body: category.to_json, headers: {'Content-Type': 'application/json'})
+      puts 'Category body'
+      puts category
+      puts 'Update Category'
+      puts JSON.parse(response.body)
+      JSON.parse(response.body)
     end
 
     def create_category_from_list(categories_list)
