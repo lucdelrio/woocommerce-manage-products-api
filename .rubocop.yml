@@ -1,26 +1,32 @@
+# require:
+#   - rubocop-rails
+#   - rubocop-rspec
+
 AllCops:
-  TargetRubyVersion: 2.7.8
+  NewCops: enable
+  TargetRubyVersion: 3.0.1
+  SuggestExtensions: false
 
-  Exclude:
-    - db/**/*
-    - bin/*
-    - config/**/*
-    - config.ru
+#   Exclude:
+#     - db/**/*
+#     - bin/*
+#     - config/**/*
+#     - config.ru
 
-Documentation:
-  Enabled: false
+# Documentation:
+#   Enabled: false
 
-Lint/AmbiguousBlockAssociation:
-  Enabled: false
+# Lint/AmbiguousBlockAssociation:
+#   Enabled: false
 
-Metrics/LineLength:
-  Max: 120
-  Exclude:
+# Metrics/LineLength:
+#   Max: 120
+  # Exclude:
 
-Metrics/BlockLength:
-  Exclude:
-    - spec/**/*.rb
+# Metrics/BlockLength:
+#   Exclude:
+#     - spec/**/*.rb
 
-Style/ClassAndModuleChildren:
-  Exclude: 
-    - test/test_helper.rb
+# Style/ClassAndModuleChildren:
+#   Exclude: 
+#     - test/test_helper.rb

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateProducts < ActiveRecord::Migration[7.1]
   def up
     create_table :products do |t|
@@ -8,9 +10,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.datetime  :woocommerce_last_updated_at
       t.datetime  :last_sync
       t.json      :product_hash
-      t.json      :variation_hash
-      t.json      :media_hash
-      
+
       t.timestamps
     end
   end

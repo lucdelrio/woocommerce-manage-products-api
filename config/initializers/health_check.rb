@@ -24,7 +24,7 @@ HealthCheck.setup do |config|
   config.add_custom_check('sidekiq-redis') do
     SidekiqHealthCheck.perform_check
   end
-  config.basic_auth_username = ENV['HEALTH_CHECK_USERNAME']
-  config.basic_auth_password = ENV['HEALTH_CHECK_PASSWORD']
-  config.redis_url = ENV[ENV.fetch('REDIS_PROVIDER', '')]
+  config.basic_auth_username = ENV.fetch('HEALTH_CHECK_USERNAME', nil)
+  config.basic_auth_password = ENV.fetch('HEALTH_CHECK_PASSWORD', nil)
+  config.redis_url = ENV.fetch(ENV.fetch('REDIS_PROVIDER', ''), nil)
 end

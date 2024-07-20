@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RailsAdmin.config do |config|
   config.asset_source = :sprockets
   # config.asset_source = :sprockets
@@ -24,20 +26,6 @@ RailsAdmin.config do |config|
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
-
-  config.model 'Post' do
-    list do
-      field :title
-      field :author
-      field :created_at
-    end
-
-    exclude_fields :content, :updated_at
-
-    edit do
-      exclude_fields :author
-    end
-  end
 
   config.actions do
     dashboard
