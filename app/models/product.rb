@@ -5,8 +5,16 @@ class Product < ApplicationRecord
   end
 
   before_destroy :remove_from_woocommerce
+  after_update :check_variations
 
   private
+
+  def check_variations
+    return unless full_product_changed?
+
+    Integration::Argentina::Variation.create_product_variations(self.woocommerce_api_id, self.full_product)
+    Integration::Argentina::Attachment.create_product_media(self.woocommerce_api_id, self.full_product)
+  end
 
   def remove_from_woocommerce
     WoocommerceApi.destroy_product_by_id(self.woocommerce_api_id)
