@@ -66,12 +66,12 @@ module Integration
             if local_product.last_sync.nil?
 
               woocommerce_product = WoocommerceApi.create_product(product_hash)
-              sync_local(local_product, woocommerce_product, product_hash)
+              sync_local(local_product, woocommerce_product, product_hash, full_product)
 
             elsif product_hash.to_json != local_product.product_hash.to_json
 
               woocommerce_product = WoocommerceApi.update_product(local_product.woocommerce_api_id, product_hash)
-              sync_local(local_product, woocommerce_product, product_hash)
+              sync_local(local_product, woocommerce_product, product_hash, full_product)
 
             else
               local_product.update(last_sync: Time.zone.now)
@@ -94,13 +94,13 @@ module Integration
         )
       end
 
-      def sync_local(local_product, woocommerce_product, product_hash)
+      def sync_local(local_product, woocommerce_product, product_hash, full_product)
         if local_product.woocommerce_api_id.nil?
           local_product.update(woocommerce_api_id: woocommerce_product['id'].to_s)
         end
 
         local_product.update(woocommerce_last_updated_at: Time.zone.now,
-                              name: product_hash[:name],
+                              name: product_hash[:name], full_product: full_product,
                               description: product_hash[:description],
                               last_sync: Time.zone.now, product_hash: product_hash)
       end

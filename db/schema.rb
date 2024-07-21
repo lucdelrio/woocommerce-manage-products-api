@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_222758) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_15_223000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,10 +70,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_222758) do
     t.datetime "woocommerce_last_updated_at"
     t.datetime "last_sync"
     t.json "product_hash"
-    t.json "variation_hash"
-    t.json "media_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "zecat_hash"
   end
 
   create_table "variations", force: :cascade do |t|

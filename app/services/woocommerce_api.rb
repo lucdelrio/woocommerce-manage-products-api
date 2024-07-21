@@ -107,22 +107,17 @@ class WoocommerceApi
       HTTParty.post(url, body: variation.to_json, headers: { 'Content-Type': 'application/json' })
     end
 
+    def destroy_product_variation(product_id, variation_id)
+      url = "#{WOOCOMMERCE_ENDPOINT}/products/#{product_id}/variations/#{variation_id}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
+      response = HTTParty.delete(url)
+      JSON.parse(response.body)
+    end
+
     def create_product_attribute(attribute)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/attributes?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
 
       response = HTTParty.post(url, body: attribute)
       JSON.parse(response.body)
-    end
-
-    def find_or_create_product_attribute_by_name(name)
-      product_attribute = ProductAttribute.find_by(name: name)
-
-      return product_attribute if product_attribute.present?
-
-      woocommerce_product_attribute = create_product_attribute({ name: name })
-
-      ProductAttribute.create(name: name, woocommerce_api_id: woocommerce_product_attribute['id'],
-                              last_sync: Time.zone.now, woocommerce_last_updated_at: Time.zone.now)
     end
 
     def create_product_attribute_term(attribute_id, attribute)
@@ -157,7 +152,7 @@ class WoocommerceApi
     def create_category(category)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/categories?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
 
-      HTTParty.post(url, body: category)
+      HTTParty.post(url, body: category, headers: { 'Content-Type': 'application/json' })
       # response = HTTParty.post( url, body: category )
       # return if response.success?
 

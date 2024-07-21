@@ -183,22 +183,21 @@ module ZecatArgentinaApi
       end
 
       def fill_variation_attributes(variation)
+        prohibited_symbols = ['.', '-', '..', '...']
         response = []
-        
-        # variation['attribute_1'] variation['attribute_2'] variation['attribute_3']
-        # description = variation['element_description_1'] variation['element_description_2'] variation['element_description_3']
-        product_attribute_1 = WoocommerceApi.find_or_create_product_attribute_by_name(variation['attribute_1'])
+
+        product_attribute_1 = find_or_create_product_attribute_by_name(variation['attribute_1'])
         create_option(product_attribute_1.woocommerce_api_id, variation['attribute_1'])
         response << variation_attribute(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
 
-        if variation['attribute_2'].present? && variation['element_description_2']
-          product_attribute_2 = WoocommerceApi.find_or_create_product_attribute_by_name(variation['attribute_2'])
+        if variation['attribute_2'].present? && !variation['element_description_2'].in?(prohibited_symbols)
+          product_attribute_2 = find_or_create_product_attribute_by_name(variation['attribute_2'])
           create_option(product_attribute_2.woocommerce_api_id, variation['attribute_2'])
           response << variation_attribute(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
         end
 
-        if variation['attribute_3'].present? && (variation['element_description_3'] != "." && variation['element_description_3'] != "-")
-          product_attribute_3 = WoocommerceApi.find_or_create_product_attribute_by_name(variation['attribute_3'])
+        if variation['attribute_3'].present? && !variation['element_description_3'].in?(prohibited_symbols)
+          product_attribute_3 = find_or_create_product_attribute_by_name(variation['attribute_3'])
           create_option(product_attribute_3.woocommerce_api_id, variation['attribute_3'])
           response << variation_attribute(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
         end
@@ -246,6 +245,17 @@ module ZecatArgentinaApi
         images_list.each do |image|
           return { src: image['image_url'] } if image['main'] == true
         end
+      end
+
+      def find_or_create_product_attribute_by_name(name)
+        product_attribute = ProductAttribute.find_by(name: name)
+  
+        return product_attribute if product_attribute.present?
+  
+        woocommerce_product_attribute = WoocommerceApi.create_product_attribute({ name: name })
+  
+        ProductAttribute.create(name: name, woocommerce_api_id: woocommerce_product_attribute['id'],
+                                last_sync: Time.zone.now, woocommerce_last_updated_at: Time.zone.now)
       end
     end
   end

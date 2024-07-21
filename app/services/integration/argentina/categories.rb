@@ -55,8 +55,8 @@ module Integration
         return category_found if category_found.present?
 
         Category.create!(
-          name: category_hash[:name],
-          description: category_hash[:description],
+          name: category_hash[:description],
+          description: category_hash[:name],
           zecat_id: zecat_id
           # category_hash: category_hash
         )

@@ -10,6 +10,7 @@ class Product < ApplicationRecord
 
   def remove_from_woocommerce
     WoocommerceApi.destroy_product_by_id(self.woocommerce_api_id)
-    # Remove variations
+    Variation.where(zecat_product_id: self.zecat_id).destroy_all
+    Attachment.where(zecat_product_id: self.zecat_id).destroy_all
   end
 end

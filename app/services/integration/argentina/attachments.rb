@@ -5,7 +5,8 @@ module Integration
     class Attachments
       class << self
         def iterate_product_and_create
-          Product.all.each do |product|
+          zecat_product_ids = Attachment.all.map(&:zecat_product_id)
+          Product.where.not(zecat_id: zecat_product_ids).each do |product|
             create_media_for_product(product)
           end
         end
