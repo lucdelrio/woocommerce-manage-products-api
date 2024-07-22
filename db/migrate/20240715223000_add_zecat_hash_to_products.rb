@@ -4,7 +4,7 @@
 
 class AddZecatHashToProducts < ActiveRecord::Migration[7.1]
   def up
-    add_column    :products, :zecat_hash,     :string
+    add_column    :products, :zecat_hash,     :jsonb
     remove_column :products, :media_hash  
     remove_column :products, :variation_hash
   end

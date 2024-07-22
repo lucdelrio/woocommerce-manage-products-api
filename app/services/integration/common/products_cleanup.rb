@@ -10,6 +10,8 @@ module Integration
               zecat_product = ZecatArgentinaApi::Products.generic_product_by_id(local_product.zecat_id)
               woocommerce_product = WoocommerceApi.product_by_id(local_product.woocommerce_api_id)
 
+              (local_product.destroy! ; next) unless local_product.woocommerce_api_id.present?
+
               next if zecat_product.present? && woocommerce_product.present?
 
               if zecat_product.present? && !woocommerce_product.present?

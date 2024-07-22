@@ -3,5 +3,7 @@
   - categories_cleanup
   - products_cleanup
   - categories
+  - products_iteration
   - products
-  - variants
+  - variations
+  - attachments

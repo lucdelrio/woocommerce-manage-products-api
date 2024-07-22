@@ -6,11 +6,19 @@ class Product < ApplicationRecord
 
   before_destroy :remove_from_woocommerce
   after_update :check_variations
+  after_update :setup
 
   private
 
+  def setup
+    return unless created_at > Time.zone.now - 5.minutes
+
+    VariationsSetupJob.perform_async(self.id)
+    AttachmentsSetupJob.perform_async(self.id)
+  end
+
   def check_variations
-    return unless full_product_changed?
+    return unless zecat_hash_changed? && created_at < Time.zone.now - 5.minutes
 
     Integration::Argentina::Variation.create_product_variations(self.woocommerce_api_id, self.full_product)
     Integration::Argentina::Attachment.create_product_media(self.woocommerce_api_id, self.full_product)

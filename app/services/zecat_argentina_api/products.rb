@@ -165,15 +165,11 @@ module ZecatArgentinaApi
       end
 
       def create_option(product_attribute_id, description)
-        # term = WoocommerceApi.get_term_by_name(terms, description)
         term = ProductAttributeTerm.find_by(woocommerce_api_product_attribute_id: product_attribute_id,
                                             name: description)
 
         return if term.present?
 
-        # Falta completar slug
-        # Ejemplop: "name": "Blanco / Sin Grip / Clip Negro",
-        #           "slug": "blanco-sin-grip-clip-negro",
         body = { name: description }
         woocommerce_term = WoocommerceApi.create_product_attribute_term(product_attribute_id,
                                                                         body)
@@ -262,6 +258,7 @@ module ZecatArgentinaApi
         woocommerce_product_attribute = WoocommerceApi.create_product_attribute({ name: name })
   
         ProductAttribute.create(name: name, woocommerce_api_id: woocommerce_product_attribute['id'],
+                                attribute_hash: { name: name },
                                 last_sync: Time.zone.now, woocommerce_last_updated_at: Time.zone.now)
       end
     end
