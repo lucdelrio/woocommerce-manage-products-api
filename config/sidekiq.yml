@@ -1,0 +1,7 @@
+:queues:
+  - default
+  - categories_cleanup
+  - products_cleanup
+  - categories
+  - products
+  - variants

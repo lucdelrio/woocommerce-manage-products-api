@@ -18,6 +18,7 @@ gem 'rails', '~> 7.1'
 gem 'rails_admin', '~> 3.1.4'
 
 # CronJobs
+gem 'sidekiq', '~> 7.3.0'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures', '~> 1.0.4'
 

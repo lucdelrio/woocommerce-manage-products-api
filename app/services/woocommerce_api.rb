@@ -153,10 +153,6 @@ class WoocommerceApi
       url = "#{WOOCOMMERCE_ENDPOINT}/products/categories?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
 
       HTTParty.post(url, body: category, headers: { 'Content-Type': 'application/json' })
-      # response = HTTParty.post( url, body: category )
-      # return if response.success?
-
-      # raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code)
     end
 
     def update_category(id, category)

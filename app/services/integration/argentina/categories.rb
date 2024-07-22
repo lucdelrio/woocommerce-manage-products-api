@@ -58,7 +58,6 @@ module Integration
           name: category_hash[:description],
           description: category_hash[:name],
           zecat_id: zecat_id
-          # category_hash: category_hash
         )
       end
     end

@@ -47,8 +47,8 @@ module ZecatArgentinaApi
         {
           name: category['description'],
           description: category['name'],
-          slug: category['url'][1..category['url'].length]
-          image: {  src => category['icon_url'] }
+          slug: category['url'][1..category['url'].length],
+          image: {  src: category['icon_url'] }
         }
       end
     end

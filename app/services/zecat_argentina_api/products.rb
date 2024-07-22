@@ -24,6 +24,13 @@ module ZecatArgentinaApi
         # fill_products_hash(json_products['generic_products'])
       end
 
+      def get_generic_product_by_page(page_number, limit)
+        url = "#{ZECAT_ENDPOINT}/generic_product?page=#{page_number}&limit=#{limit}"
+        response = HTTParty.get(url)
+
+        JSON.parse(response.body)
+      end
+
       # Variante genérica
       # product_list = ZecatArgentinaApi::Products.get_generic_product_by_family_with_pages('64', '2', '5')
       # list = product_list.dig('generic_products')

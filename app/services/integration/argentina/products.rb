@@ -37,6 +37,19 @@ module Integration
         end
       end
 
+      def iterate_products_and_create
+        products_list = ZecatArgentinaApi::Products.get_generic_product_by_page('1','50')
+
+        create_products_from_list(products_list['generic_products'])
+
+        return if products_list['total_pages'] == 1
+
+        (products_list['total_pages'] - 1).times do |page|
+          products_list = ZecatArgentinaApi::Products.get_generic_product_by_page(page + 2, '50')
+          create_products_from_list(products_list['generic_products'])
+        end
+      end
+
       def create_products_from_list(products_list)
         products_list.each_slice(4) do |product_group|
           product_group.each do |product|
