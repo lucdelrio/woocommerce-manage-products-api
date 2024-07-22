@@ -152,7 +152,7 @@ class WoocommerceApi
     def create_category(category)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/categories?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
 
-      HTTParty.post(url, body: category, headers: { 'Content-Type': 'application/json' })
+      HTTParty.post(url, body: category.to_json, headers: { 'Content-Type': 'application/json' })
     end
 
     def update_category(id, category)

@@ -46,7 +46,7 @@ module ZecatArgentinaApi
       def category_hash(category)
         {
           name: category['description'],
-          description: category['name'],
+          description: category['meta'],
           slug: category['url'][1..category['url'].length],
           image: {  src: category['icon_url'] }
         }

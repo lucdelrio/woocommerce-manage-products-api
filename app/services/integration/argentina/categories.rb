@@ -38,8 +38,8 @@ module Integration
       end
 
       def sync_local(local_category, woocommerce_category, category_hash)
-        woocommerce_category_id = if woocommerce_category.success?
-                                    JSON.parse(woocommerce_category.body)['id']
+        woocommerce_category_id = if !woocommerce_category.try(:success?)
+                                    woocommerce_category.dig('id')
                                   else
                                     JSON.parse(woocommerce_category.body)['data']['resource_id']
                                   end
