@@ -1,7 +1,6 @@
 :queues:
   - default
-  - categories_cleanup
-  - products_cleanup
+  - cleanup
   - categories
   - products_iteration
   - products

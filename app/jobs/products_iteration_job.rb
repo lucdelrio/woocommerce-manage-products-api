@@ -6,6 +6,6 @@ class ProductsIterationJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Argentina::Products.iterate_products_and_create
+    Integration::Products.iterate_products_and_create
   end
 end

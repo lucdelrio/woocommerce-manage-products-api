@@ -6,6 +6,6 @@ class CategoriesSetupJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Argentina::Categories.new.iterate_categories_and_sync
+    Integration::Categories.new.iterate_categories_and_sync
   end
 end

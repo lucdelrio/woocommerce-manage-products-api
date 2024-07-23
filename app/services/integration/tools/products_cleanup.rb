@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Integration
-  module Common
+  module Tools
     class ProductsCleanup
       class << self
         def iterate_products_and_destroy

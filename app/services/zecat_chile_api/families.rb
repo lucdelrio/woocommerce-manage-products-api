@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module ZecatArgentinaApi
-  class Families < ZecatArgentinaApi::Base
+module ZecatChileApi
+  class Families < ZecatChileApi::Base
     class << self
       def categories
         url = "#{ZECAT_ENDPOINT}/family"

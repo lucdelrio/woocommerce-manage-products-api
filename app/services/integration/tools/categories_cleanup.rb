@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Integration
-  module Common
+  module Tools
     class CategoriesCleanup
       def initialize
         @zecat_categories = ZecatArgentinaApi::Families.categories

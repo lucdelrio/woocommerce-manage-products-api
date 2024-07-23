@@ -87,7 +87,7 @@ class WoocommerceApi
 
     def update_product(id, product)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/#{id}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
-      response = HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' }, timeout: 180)
+      response = HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' }, timeout: 120)
       Rails.logger.debug 'Update Product'
       Rails.logger.debug JSON.parse(response.body)
       JSON.parse(response.body)
