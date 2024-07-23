@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
-  rails_admin do
-  end
-
   before_destroy :remove_from_woocommerce
 
   private

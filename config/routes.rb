@@ -3,8 +3,10 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  mount Sidekiq::Web, at: '/sidekiq'
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  # devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
-  root to: redirect('/admin')
+  mount Sidekiq::Web, at: '/sidekiq'
+
+  # root to: redirect('/admin')
 end

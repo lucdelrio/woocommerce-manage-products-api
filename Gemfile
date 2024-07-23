@@ -5,17 +5,21 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.1'
 
+gem 'activeadmin', '~> 3.2', '>= 3.2.2'
+
 gem 'active_interaction', '~> 5.3.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.18.3', require: false
+
+gem 'devise', '~> 4.9', '>= 4.9.4'
 
 gem 'health_check', '~> 3.1.0'
 gem 'httparty', '~> 0.22.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.1'
-gem 'rails_admin', '~> 3.1.4'
+# gem 'rails_admin', '~> 3.1.4'
 
 # CronJobs
 gem 'sidekiq', '~> 7.3.0'
