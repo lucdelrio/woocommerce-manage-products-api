@@ -20,8 +20,8 @@ class Product < ApplicationRecord
   def check_variations
     return unless zecat_hash_changed? && created_at < Time.zone.now - 5.minutes
 
-    Integration::Argentina::Variation.create_product_variations(self.woocommerce_api_id, self.full_product)
-    Integration::Argentina::Attachment.create_product_media(self.woocommerce_api_id, self.full_product)
+    Integration::Argentina::Variations.create_product_variations(self.woocommerce_api_id, self.zecat_hash)
+    Integration::Argentina::Attachments.create_product_media(self.woocommerce_api_id, self.zecat_hash)
   end
 
   def remove_from_woocommerce
