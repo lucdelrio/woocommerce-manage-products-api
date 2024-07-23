@@ -87,14 +87,10 @@ class WoocommerceApi
 
     def update_product(id, product)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/#{id}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
-      response = HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' })
+      response = HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' }, timeout: 180)
       Rails.logger.debug 'Update Product'
       Rails.logger.debug JSON.parse(response.body)
       JSON.parse(response.body)
-
-      # return if response.success?
-
-      # raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code)
     end
 
     def create_product_variation(product_id, variation)

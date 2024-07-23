@@ -58,9 +58,7 @@ module ZecatArgentinaApi
           type: product['products'].empty? ? 'simple' : 'variable',
           price: product['price'],
           description: product['description'],
-          # short_description: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
           categories: add_categories(product),
-          # images: fill_images_list(product.dig('images')),
           attributes: variation_names(product['products'])
           # tags: product.dig('tag')
         }
@@ -83,9 +81,7 @@ module ZecatArgentinaApi
           regular_price: product['price'].to_s,
           price: product['price'].to_s,
           sku: variation['sku'],
-          # name: description,
           manage_stock: true,
-          # stock: variation.dig('stock'),
           stock_quantity: variation['stock'],
           weight: product.dig('dimensions', 'weight').to_s,
           dimensions: {
@@ -96,17 +92,6 @@ module ZecatArgentinaApi
           attributes: fill_variation_attributes(variation)
         }
       end
-
-      # def generic_variation_name(variation)
-      #   description = variation['element_description_1']
-      #   if variation['element_description_2']&.match?(/[a-z]/)
-      #     description = "#{description} / #{variation['element_description_2']}"
-      #   end
-      #   if variation['element_description_3']&.match?(/[a-z]/)
-      #     description = "#{description} / #{variation['element_description_3']}"
-      #   end
-      #   description
-      # end
 
       #  [[{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"X Small"}],
       #  [{:id=>5, :option=>"Negro"}, {:id=>3, :option=>"Small"}],
