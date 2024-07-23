@@ -7,6 +7,7 @@ class AttachmentsSetupJob
 
   def perform(product_id)
     product = Product.find product_id
-    Integration::Argentina::Attachments.create_media_for_product(product)
+
+    Integration::Argentina::Attachments.create_product_media(product.woocommerce_api_id, product.zecat_hash)
   end
 end

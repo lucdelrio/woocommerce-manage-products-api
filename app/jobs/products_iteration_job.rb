@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProductsSetupJob
+class ProductsIterationJob
   include Sidekiq::Job
   queue_as :products_iteration
   sidekiq_options retry: false

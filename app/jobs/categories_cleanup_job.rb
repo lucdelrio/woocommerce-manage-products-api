@@ -2,9 +2,8 @@
 
 class CategoriesCleanupJob
   include Sidekiq::Job
-  queue_as :categories_cleanup
-  sidekiq_options retry: false
-  # sidekiq_options queue: 'soon', unique_for: 72.hours
+
+  sidekiq_options queue: :categories_cleanup, unique_for: 20.hours, retry: false
 
   def perform
     Integration::Common::CategoriesCleanup.new.iterate_categories_and_destroy

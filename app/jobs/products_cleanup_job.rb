@@ -2,9 +2,7 @@
 
 class ProductsCleanupJob
   include Sidekiq::Job
-  queue_as :products_cleanup
-  sidekiq_options retry: false
-  # sidekiq_options queue: 'soon', unique_for: 72.hours
+  sidekiq_options queue: :products_cleanup, unique_for: 20.hours, retry: false
 
   def perform
     Integration::Common::ProductsCleanup.iterate_products_and_destroy
