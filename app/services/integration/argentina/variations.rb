@@ -61,7 +61,7 @@ module Integration
 
           local_variation.update(woocommerce_api_id: woocommerce_variation_id) if local_variation.woocommerce_api_id.nil?
 
-          local_variation.update( woocommerce_last_updated_at: Time.zone.now,
+          local_variation.update( woocommerce_last_updated_at: Time.zone.now, regular_price: product_variation_hash['regular_price'],
                                   last_sync: Time.zone.now, variation_hash: product_variation_hash)
         end
       end

@@ -79,9 +79,9 @@ module Integration
           end
         end
 
-        def remote_available(local_product)
-          WoocommerceApi.product_by_id(local_product.woocommerce_api_id).present?
-        end
+        # def remote_available(local_product)
+        #   WoocommerceApi.product_by_id(local_product.woocommerce_api_id).present?
+        # end
 
         def find_or_create_local_product(zecat_id)
           product_found = Product.find_by(zecat_id: zecat_id)

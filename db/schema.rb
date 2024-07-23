@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_22_103020) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_23_091034) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_22_103020) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "zecat_hash"
+    t.float "regular_price"
   end
 
   create_table "variations", force: :cascade do |t|
@@ -83,6 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_22_103020) do
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "regular_price"
     t.index ["product_id"], name: "index_variations_on_product_id"
   end
 
