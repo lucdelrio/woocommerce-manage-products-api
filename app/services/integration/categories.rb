@@ -45,7 +45,7 @@ module Integration
 
       (local_category.destroy! ; return) unless woocommerce_category_id.present?
 
-      local_category.update!(woocommerce_api_id: woocommerce_category_id.to_s,
+      local_category.update(woocommerce_api_id: woocommerce_category_id.to_s,
                               woocommerce_last_updated_at: Time.zone.now,
                               last_sync: Time.zone.now, category_hash: category_hash)
     end
@@ -55,7 +55,7 @@ module Integration
 
       return category_found if category_found.present?
 
-      Category.create!(
+      Category.new(
         name: category_hash[:name],
         description: category_hash[:description],
         zecat_id: zecat_id

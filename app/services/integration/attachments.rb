@@ -41,7 +41,7 @@ module Integration
 
         return media_found if media_found.present?
 
-        Attachment.create!(
+        Attachment.new(
           zecat_product_id: zecat_product_id,
           woocommerce_api_product_id: woocommerce_api_product_id
         )

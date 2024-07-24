@@ -19,7 +19,7 @@ class Product < ApplicationRecord
   private
 
   def setup
-    VariationsSetupJob.perform_async(self.id)
+    VariationsSetupJob.perform_in(10.seconds, self.id)
     AttachmentsSetupJob.perform_in(3.minutes, self.id)
   end
 

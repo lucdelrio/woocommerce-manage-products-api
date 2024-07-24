@@ -51,7 +51,7 @@ module Integration
           product_group.each do |zecat_product|
             next if zecat_product.dig('isKit') == true
 
-            ProductSetupJob.perform_async(zecat_product['id'].to_i)
+            ProductSetupJob.perform_in(10.seconds, zecat_product['id'].to_i)
           end
         end
       end
