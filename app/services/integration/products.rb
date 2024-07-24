@@ -4,11 +4,11 @@ module Integration
   class Products
     class << self
       def iterate_categories_and_create
-        zecat_categories = ZecatArgentinaApi::Families.categories
+        zecat_categories = ZecatApi::Families.categories
         Category.all.each_slice(2) do |group|
           group.each do |category|
-            # category = ZecatArgentinaApi::Families.category_by_description('2024 Día de la niñez')
-            zecat_category = ZecatArgentinaApi::Families.category_by_description(zecat_categories, category.description)
+            # category = ZecatApi::Families.category_by_description('2024 Día de la niñez')
+            zecat_category = ZecatApi::Families.category_by_description(zecat_categories, category.description)
             next unless zecat_category.present?
 
             puts 'Category Description'
@@ -19,7 +19,7 @@ module Integration
       end
 
       def create_products_by_category(category)
-        products_list = ZecatArgentinaApi::Products.get_generic_product_by_family_with_pages(category.zecat_id, '1',
+        products_list = ZecatApi::Products.get_generic_product_by_family_with_pages(category.zecat_id, '1',
                                                                                               '10')
 
         create_products_from_list(products_list['generic_products'])
@@ -27,21 +27,21 @@ module Integration
         return if products_list['total_pages'] == 1
 
         (products_list['total_pages'] - 1).times do |page|
-          products_list = ZecatArgentinaApi::Products.get_generic_product_by_family_with_pages(category.zecat_id,
+          products_list = ZecatApi::Products.get_generic_product_by_family_with_pages(category.zecat_id,
                                                                                                 page + 2, '10')
           create_products_from_list(products_list['generic_products'])
         end
       end
 
       def iterate_products_and_create
-        products_list = ZecatArgentinaApi::Products.get_generic_product_by_page('1','50')
+        products_list = ZecatApi::Products.get_generic_product_by_page('1','50')
 
         create_products_from_list(products_list['generic_products'])
 
         return if products_list['total_pages'] == 1
 
         (products_list['total_pages'] - 1).times do |page|
-          products_list = ZecatArgentinaApi::Products.get_generic_product_by_page(page + 2, '50')
+          products_list = ZecatApi::Products.get_generic_product_by_page(page + 2, '50')
           create_products_from_list(products_list['generic_products'])
         end
       end
@@ -57,7 +57,7 @@ module Integration
       end
 
       def create_or_sync_product(zecat_product_id)
-        full_product = ZecatArgentinaApi::Products.generic_product_by_id(zecat_product_id)
+        full_product = ZecatApi::Products.generic_product_by_id(zecat_product_id)
         return unless full_product['generic_product'].present?
 
         local_product = find_or_create_local_product(zecat_product_id)

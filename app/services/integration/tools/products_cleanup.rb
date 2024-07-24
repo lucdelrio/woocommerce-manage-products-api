@@ -7,7 +7,7 @@ module Integration
         def iterate_products_and_destroy
           Product.all.each_slice(10) do |group|
             group.each do |local_product|
-              zecat_product = ZecatArgentinaApi::Products.generic_product_by_id(local_product.zecat_id)
+              zecat_product = ZecatApi::Products.generic_product_by_id(local_product.zecat_id)
               woocommerce_product = WoocommerceApi.product_by_id(local_product.woocommerce_api_id)
 
               (local_product.destroy! ; next) unless local_product.woocommerce_api_id.present?

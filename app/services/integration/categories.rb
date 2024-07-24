@@ -3,7 +3,7 @@
 module Integration
   class Categories
     def initialize
-      @zecat_categories = ZecatArgentinaApi::Families.categories
+      @zecat_categories = ZecatApi::Families.categories
       @woocommerces_categories = WoocommerceApi.categories
     end
 

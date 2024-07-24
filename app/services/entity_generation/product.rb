@@ -2,12 +2,13 @@
 
 module EntityGeneration
   class Product
+    PRICE_INCREASE = ENV.fetch('PRICE_INCREASE', 1)
+
     class << self
       def fill_product(product)
         {
           name: product['name'],
           type: product['products'].empty? ? 'simple' : 'variable',
-          price: product['price'],
           description: product['description'],
           categories: add_categories(product),
           attributes: variation_names(product['products'])
@@ -29,8 +30,7 @@ module EntityGeneration
 
       def fill_variation(product, variation)
         {
-          regular_price: product['price'].to_s,
-          price: product['price'].to_s,
+          regular_price: (product['price'] * PRICE_INCREASE).to_s,
           sku: variation['sku'],
           manage_stock: true,
           stock_quantity: variation['stock'],
@@ -169,11 +169,11 @@ module EntityGeneration
 
       def find_or_create_product_attribute_by_name(name)
         product_attribute = ProductAttribute.find_by(name: name)
-  
+
         return product_attribute if product_attribute.present?
-  
+
         woocommerce_product_attribute = WoocommerceApi.create_product_attribute({ name: name })
-  
+
         ProductAttribute.create(name: name, woocommerce_api_id: woocommerce_product_attribute['id'],
                                 attribute_hash: { name: name },
                                 last_sync: Time.zone.now, woocommerce_last_updated_at: Time.zone.now)

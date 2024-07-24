@@ -342,7 +342,7 @@ DEPENDENCIES
   rubocop (~> 1.60.0)
   sassc-rails
   sidekiq (~> 7.3.0)
-  sidekiq-cron
+  sidekiq-cron (~> 1.12)
   sidekiq-failures (~> 1.0.4)
   simplecov (~> 0.12.0)
   spring (~> 4.0.0)

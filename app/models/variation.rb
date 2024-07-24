@@ -8,7 +8,7 @@ class Variation < ApplicationRecord
   end
 
   before_destroy :remove_from_woocommerce
-  after_update :update_product_price
+  # after_update :update_product_price, if :regular_price_previously_changed?
 
   private
 

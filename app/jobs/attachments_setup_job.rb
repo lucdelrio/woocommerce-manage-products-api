@@ -3,7 +3,7 @@
 class AttachmentsSetupJob
   include Sidekiq::Job
   queue_as :attachments
-  sidekiq_options retry: 5
+  sidekiq_options retry: 5, unique: :until_executed
 
   def perform(product_id)
     product = Product.find product_id

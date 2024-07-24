@@ -23,6 +23,7 @@ module ZecatProductsApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
     config.api_only = true
+    config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
     config.active_job.queue_adapter = :sidekiq
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Flash

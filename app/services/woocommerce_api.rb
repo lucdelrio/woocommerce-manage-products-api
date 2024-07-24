@@ -76,20 +76,15 @@ class WoocommerceApi
       url = "#{WOOCOMMERCE_ENDPOINT}/products?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
       response = HTTParty.post(url, body: product.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      Rails.logger.debug 'Create Product'
-      Rails.logger.debug JSON.parse(response.body)
+      Rails.logger.info 'Create Woocommerce Product'
       JSON.parse(response.body)
-
-      # return if response.success?
-
-      # raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code)
     end
 
     def update_product(id, product)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/#{id}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
       response = HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' }, timeout: 120)
-      Rails.logger.debug 'Update Product'
-      Rails.logger.debug JSON.parse(response.body)
+
+      Rails.logger.info 'Update Woocommerce Product'
       JSON.parse(response.body)
     end
 
@@ -154,10 +149,8 @@ class WoocommerceApi
     def update_category(id, category)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/categories/#{id}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
       response = HTTParty.put(url, body: category.to_json, headers: { 'Content-Type': 'application/json' })
-      Rails.logger.debug 'Category body'
-      Rails.logger.debug category
+
       Rails.logger.debug 'Update Category'
-      Rails.logger.debug JSON.parse(response.body)
       JSON.parse(response.body)
     end
 

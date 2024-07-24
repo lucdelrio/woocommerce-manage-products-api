@@ -10,8 +10,9 @@ module Integration
       end
 
       def create_media_for_product(product)
-        Rails.logger.debug 'Attachments:Product'
-        Rails.logger.debug product.zecat_id
+        Rails.logger.info 'Attachments:Product'
+        Rails.logger.info product.zecat_id
+
         return unless product.zecat_hash.present?
 
         create_product_media(product.woocommerce_api_id, product.zecat_hash)

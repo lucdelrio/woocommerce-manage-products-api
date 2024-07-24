@@ -19,7 +19,7 @@ gem 'rails_admin', '~> 3.1.4'
 
 # CronJobs
 gem 'sidekiq', '~> 7.3.0'
-gem 'sidekiq-cron'
+gem 'sidekiq-cron', '~> 1.12'
 gem 'sidekiq-failures', '~> 1.0.4'
 
 # Use pg as the database for Active Record
@@ -37,7 +37,6 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rubocop', '~> 1.60.0', require: false
-  # gem 'rubocop-rails', '~> 2.24.0', require: false
   # gem 'vcr', '~> 4.0'
   # gem 'webmock', '~> 3.5.1'
   gem 'dotenv-rails', '~> 2.7.1'

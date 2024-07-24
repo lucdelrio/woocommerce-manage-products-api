@@ -6,7 +6,7 @@ module Integration
       def iterate_product_and_create
         Product.all.each_slice(5) do |product_group|
           product_group.each do |product|
-            # full_product = ZecatArgentinaApi::Products.generic_product_by_id(product.zecat_id)
+            # full_product = ZecatApi::Products.generic_product_by_id(product.zecat_id)
             next unless product.zecat_hash.present?
 
             create_product_variations(product.woocommerce_api_id, product.zecat_hash)

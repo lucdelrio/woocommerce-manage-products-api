@@ -5,11 +5,16 @@ class Product < ApplicationRecord
     list do
       exclude_fields :product_hash, :zecat_hash, :created_at, :updated_at
     end
+
+    # update do
+    #   field :regular_price
+    # end
   end
 
   before_destroy :remove_from_woocommerce
   after_update :check_variations
   after_update :setup
+  # after_update :sync_variations_for_price, if :regular_price_previously_changed?
 
   private
 
@@ -21,7 +26,7 @@ class Product < ApplicationRecord
   end
 
   def check_variations
-    return unless zecat_hash_changed? && created_at < Time.zone.now - 5.minutes
+    return unless zecat_hash_previously_changed? && created_at < Time.zone.now - 5.minutes
 
     Integration::Argentina::Variations.create_product_variations(self.woocommerce_api_id, self.zecat_hash)
     Integration::Argentina::Attachments.create_product_media(self.woocommerce_api_id, self.zecat_hash)
