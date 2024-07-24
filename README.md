@@ -8,14 +8,19 @@ Created for setting all the categories, products and their variants on Woocommer
 ### Operations
 
 * Create Zecat Argentina products through categories
-* Update Zecat Argentina products (TODO)
-* Create Zecat Chile products through categories (TODO)
-* Update Zecat Chile products (TODO)
+* Update Zecat Argentina products
+* Create Zecat Chile products through categories
+* Update Zecat Chile products
+
+#### Operation Commands
+
+CategoriesSetupJob.perform_async
+ProductsIterationJob.perform_async
+ProductSetupJob.perform_async(zecat_id)
 
 ### Improvements
 
-* Run Jobs for product, variants and images creation
-* Schedule Jobs for updating Products
+* Manage Timeout Exception for Attachments upload
 
 ### Dependencies
 
@@ -28,5 +33,10 @@ Created for setting all the categories, products and their variants on Woocommer
   * WOOCOMMERCE_ENDPOINT
   * WOOCOMMERCE_CONSUMER_KEY
   * WOOCOMMERCE_SECRET
-  * ZECAT_ARGENTINA_ENDPOINT
-  * ZECAT_CHILE_ENDPOINT
+  * ZECAT_ENDPOINT
+  * ADMIN_USERNAME
+  * ADMIN_PASSWORD
+  * HEALTH_CHECK_USERNAME
+  * HEALTH_CHECK_PASSWORD
+  * SIDEKIQ_REDIS_URL
+  * RAILS_MASTER_KEY

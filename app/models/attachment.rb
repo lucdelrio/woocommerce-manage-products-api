@@ -3,7 +3,7 @@
 class Attachment < ApplicationRecord
   rails_admin do
     list do
-      exclude_fields :media_hash, :zecat_media_id, :created_at, :updated_at
+      exclude_fields :media_hash, :created_at, :updated_at
     end
   end
 end

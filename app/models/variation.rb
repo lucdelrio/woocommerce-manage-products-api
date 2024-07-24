@@ -3,12 +3,12 @@
 class Variation < ApplicationRecord
   rails_admin do
     list do
-      exclude_fields :variation_hash, :created_at, :updated_at, :product_id
+      exclude_fields :variation_hash, :created_at, :updated_at
     end
   end
 
   before_destroy :remove_from_woocommerce
-  # after_update :update_product_price, if :regular_price_previously_changed?
+  after_update :update_product_price if :variation_hash_previously_changed?
 
   private
 
@@ -17,8 +17,6 @@ class Variation < ApplicationRecord
   end
 
   def update_product_price
-    return unless regular_price_changed?
-    
     product = Product.find_by(zecat_id: self.zecat_product_id)
     product.update(regular_price: self.regular_price)
   end

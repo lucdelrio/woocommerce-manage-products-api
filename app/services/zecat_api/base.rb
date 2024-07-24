@@ -3,7 +3,7 @@
 module ZecatApi
   class Base
     class << self
-      ZECAT_ENDPOINT = ENV.fetch('ZECAT_ARGENTINA_ENDPOINT', 'ZECAT_CHILE_ENDPOINT')
+      ZECAT_ENDPOINT = ENV.fetch('ZECAT_ENDPOINT')
     end
   end
 end

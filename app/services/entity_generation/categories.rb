@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EntityGeneration
-  class Category
+  class Categories
     class << self
       def fill_categories_hash(categories)
         categories_hash = []

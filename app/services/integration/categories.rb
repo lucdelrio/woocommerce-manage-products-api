@@ -9,7 +9,7 @@ module Integration
 
     def iterate_categories_and_sync
       @zecat_categories.each do |category|
-        category_hash = EntityGeneration::Category.category_hash(category)
+        category_hash = EntityGeneration::Categories.category_hash(category)
         local_category = find_or_create_local_category(category['id'], category_hash)
 
         sync_category(local_category, category_hash)
@@ -37,11 +37,13 @@ module Integration
     end
 
     def sync_local(local_category, woocommerce_category, category_hash)
-      woocommerce_category_id = if !woocommerce_category.try(:success?)
+      woocommerce_category_id = if woocommerce_category.try(:success?)
                                   woocommerce_category.dig('id')
                                 else
                                   JSON.parse(woocommerce_category.body)['data']['resource_id']
                                 end
+
+      (local_category.destroy! ; return) unless woocommerce_category_id.present?
 
       local_category.update!(woocommerce_api_id: woocommerce_category_id.to_s,
                               woocommerce_last_updated_at: Time.zone.now,
@@ -49,13 +51,13 @@ module Integration
     end
 
     def find_or_create_local_category(zecat_id, category_hash)
-      category_found = Category.find_by(zecat_id: zecat_id)
+      category_found = Category.find_by(zecat_id: zecat_id.to_i)
 
       return category_found if category_found.present?
 
       Category.create!(
-        name: category_hash[:description],
-        description: category_hash[:name],
+        name: category_hash[:name],
+        description: category_hash[:description],
         zecat_id: zecat_id
       )
     end

@@ -13,16 +13,14 @@ class Product < ApplicationRecord
 
   before_destroy :remove_from_woocommerce
   after_update :check_variations
-  after_update :setup
+  after_create :setup
   # after_update :sync_variations_for_price, if :regular_price_previously_changed?
 
   private
 
   def setup
-    return unless created_at > Time.zone.now - 5.minutes
-
     VariationsSetupJob.perform_async(self.id)
-    AttachmentsSetupJob.perform_async(self.id)
+    AttachmentsSetupJob.perform_in(3.minutes, self.id)
   end
 
   def check_variations

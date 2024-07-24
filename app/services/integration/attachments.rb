@@ -21,7 +21,7 @@ module Integration
       def create_product_media(woocommerce_api_product_id, full_product)
         return unless full_product['images'].present?
 
-        media_hash = EntityGeneration::Attachment.fill_images_list(full_product['images'], full_product['products'])
+        media_hash = EntityGeneration::Attachments.fill_images_list(full_product['images'], full_product['products'])
 
         local_attachment = find_or_create_local_product_media(full_product['id'],
                                                               woocommerce_api_product_id)
@@ -36,8 +36,8 @@ module Integration
       end
 
       def find_or_create_local_product_media(zecat_product_id, woocommerce_api_product_id)
-        media_found = Attachment.find_by( zecat_product_id: zecat_product_id,
-                                          woocommerce_api_product_id: woocommerce_api_product_id)
+        media_found = Attachment.find_by( zecat_product_id: zecat_product_id.to_i,
+                                          woocommerce_api_product_id: woocommerce_api_product_id.to_i)
 
         return media_found if media_found.present?
 

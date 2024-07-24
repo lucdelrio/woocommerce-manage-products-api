@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EntityGeneration
-  class Product
+  class Products
     PRICE_INCREASE = ENV.fetch('PRICE_INCREASE', 1)
 
     class << self
@@ -101,9 +101,8 @@ module EntityGeneration
       end
 
       def create_option(product_attribute_id, description)
-        term = ProductAttributeTerm.find_by(woocommerce_api_product_attribute_id: product_attribute_id,
+        term = ProductAttributeTerm.find_by(woocommerce_api_product_attribute_id: product_attribute_id.to_i,
                                             name: description)
-
         return if term.present?
 
         body = { name: description }
@@ -173,6 +172,7 @@ module EntityGeneration
         return product_attribute if product_attribute.present?
 
         woocommerce_product_attribute = WoocommerceApi.create_product_attribute({ name: name })
+        # woocommerce_product_attribute.dig('id')
 
         ProductAttribute.create(name: name, woocommerce_api_id: woocommerce_product_attribute['id'],
                                 attribute_hash: { name: name },

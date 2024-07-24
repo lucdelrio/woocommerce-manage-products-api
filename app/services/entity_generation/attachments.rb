@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EntityGeneration
-  class Attachment
+  class Attachments
     class << self
       def fill_images_list(images_list, variations)
         images = []

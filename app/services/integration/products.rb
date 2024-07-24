@@ -51,7 +51,7 @@ module Integration
           product_group.each do |zecat_product|
             next if zecat_product.dig('isKit') == true
 
-            ProductSetupJob.perform_async(zecat_product['id'])
+            ProductSetupJob.perform_async(zecat_product['id'].to_i)
           end
         end
       end
@@ -62,7 +62,7 @@ module Integration
 
         local_product = find_or_create_local_product(zecat_product_id)
         
-        product_hash = EntityGeneration::Product.fill_product(full_product['generic_product'])
+        product_hash = EntityGeneration::Products.fill_product(full_product['generic_product'])
 
         if local_product.last_sync.nil?
 
@@ -71,8 +71,8 @@ module Integration
           sync_local(local_product, woocommerce_product, product_hash, full_product['generic_product'])
 
         elsif product_hash.to_json != local_product.product_hash.to_json
-
           woocommerce_product = WoocommerceApi.update_product(local_product.woocommerce_api_id, product_hash)
+
           sync_local(local_product, woocommerce_product, product_hash, full_product['generic_product'])
 
         else
@@ -85,18 +85,20 @@ module Integration
       # end
 
       def find_or_create_local_product(zecat_id)
-        product_found = Product.find_by(zecat_id: zecat_id)
+        product_found = Product.find_by(zecat_id: zecat_id.to_i)
 
         return product_found if product_found.present?
 
-        Product.create!(
+        Product.new(
           zecat_id: zecat_id
         )
       end
 
       def sync_local(local_product, woocommerce_product, product_hash, full_product)
+        return unless woocommerce_product['id'].present?
+
         local_product.update(woocommerce_last_updated_at: Time.zone.now,
-                              woocommerce_api_id: woocommerce_product['id'].to_s,
+                              woocommerce_api_id: woocommerce_product['id'],
                               name: product_hash[:name], zecat_hash: full_product,
                               description: product_hash[:description],
                               last_sync: Time.zone.now, product_hash: product_hash)

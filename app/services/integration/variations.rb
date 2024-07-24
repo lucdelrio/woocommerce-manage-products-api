@@ -18,7 +18,7 @@ module Integration
         return unless full_product['products'].present?
 
         full_product['products'].each do |variation|
-          product_variation_hash = EntityGeneration::Product.fill_variation(full_product, variation)
+          product_variation_hash = EntityGeneration::Products.fill_variation(full_product, variation)
 
           local_variation = find_or_create_local_product_variation(variation['generic_product_id'], variation['id'], woocommerce_api_product_id)
 
@@ -40,11 +40,11 @@ module Integration
       end
 
       def find_or_create_local_product_variation(zecat_product_id, zecat_variation_id, woocommerce_api_product_id)
-        variation_found = Variation.find_by(zecat_product_id: zecat_product_id, zecat_variation_id: zecat_variation_id)
+        variation_found = Variation.find_by(zecat_product_id: zecat_product_id.to_i, zecat_variation_id: zecat_variation_id.to_i)
 
         return variation_found if variation_found.present?
 
-        Variation.create!(
+        Variation.new(
           zecat_product_id: zecat_product_id,
           zecat_variation_id: zecat_variation_id,
           woocommerce_api_product_id: woocommerce_api_product_id
@@ -60,8 +60,8 @@ module Integration
 
         local_variation.update(woocommerce_api_id: woocommerce_variation_id) if local_variation.woocommerce_api_id.nil?
 
-        local_variation.update( woocommerce_last_updated_at: Time.zone.now, regular_price: product_variation_hash['regular_price'],
-                                last_sync: Time.zone.now, variation_hash: product_variation_hash)
+        local_variation.update(woocommerce_last_updated_at: Time.zone.now, regular_price: product_variation_hash[:regular_price].to_f,
+                               last_sync: Time.zone.now, variation_hash: product_variation_hash)
       end
     end
   end

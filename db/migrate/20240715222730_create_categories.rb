@@ -5,8 +5,8 @@ class CreateCategories < ActiveRecord::Migration[7.1]
     create_table :categories do |t|
       t.string    :name
       t.text      :description
-      t.string    :zecat_id
-      t.string    :woocommerce_api_id
+      t.integer    :zecat_id
+      t.integer    :woocommerce_api_id
       t.datetime  :woocommerce_last_updated_at
       t.datetime  :last_sync
       t.json      :category_hash
