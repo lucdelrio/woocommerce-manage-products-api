@@ -27,9 +27,13 @@ module Integration
                                                               woocommerce_api_product_id)
 
         if (media_hash != local_attachment.media_hash) || local_attachment.last_sync.nil?
-          woocommerce_media = WoocommerceApi.update_product(woocommerce_api_product_id, { images: media_hash })
+          response = WoocommerceApi.update_product(woocommerce_api_product_id, { images: media_hash })
 
-          sync_local(local_attachment, woocommerce_media, media_hash)
+          if response.success?
+            sync_local(local_attachment, JSON.parse(response.body), media_hash)
+          else
+            AttachmentsSetupJob.perform_in(20.minutes, Product.find_by(woocommerce_api_id: woocommerce_api_product_id).id)
+          end
         else
           local_attachment.update(last_sync: Time.zone.now)
         end

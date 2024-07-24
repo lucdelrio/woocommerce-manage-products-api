@@ -71,10 +71,13 @@ module Integration
           sync_local(local_product, woocommerce_product, product_hash, full_product['generic_product'])
 
         elsif product_hash.to_json != local_product.product_hash.to_json
-          woocommerce_product = WoocommerceApi.update_product(local_product.woocommerce_api_id, product_hash)
+          response = WoocommerceApi.update_product(local_product.woocommerce_api_id, product_hash)
 
-          sync_local(local_product, woocommerce_product, product_hash, full_product['generic_product'])
-
+          if response.success?
+            sync_local(local_product, JSON.parse(response.body), product_hash, full_product['generic_product'])
+          else
+            ProductSetupJob.perform_in(20.minutes, zecat_product_id)
+          end
         else
           local_product.update(last_sync: Time.zone.now)
         end

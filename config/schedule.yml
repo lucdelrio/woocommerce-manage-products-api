@@ -12,3 +12,8 @@ attachments_fix_job:
   cron: "0 4 * * *"
   class: "AttachmentsFixJob"
   queue: attachments_fix
+
+products_update_price_job:
+  cron: "0 3 * * *"
+  class: "ProductsUpdatePriceJob"
+  queue: products_iteration

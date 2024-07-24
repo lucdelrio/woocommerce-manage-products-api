@@ -19,7 +19,7 @@ module EntityGeneration
       def add_categories(product)
         categories = []
         product['families'].each do |family|
-          category = Category.find_by(description: family['description'])
+          category = Category.find_by(name: family['description'])
           next if category.nil?
 
           categories << { id: category.woocommerce_api_id.to_i }
