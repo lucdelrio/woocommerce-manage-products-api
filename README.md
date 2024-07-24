@@ -14,9 +14,9 @@ Created for setting all the categories, products and their variants on Woocommer
 
 #### Operation Commands
 
-CategoriesSetupJob.perform_async
-ProductsIterationJob.perform_async
-ProductSetupJob.perform_async(zecat_id)
+* CategoriesSetupJob.perform_async
+* ProductsIterationJob.perform_async
+* ProductSetupJob.perform_async(zecat_id)
 
 ### Improvements
 
