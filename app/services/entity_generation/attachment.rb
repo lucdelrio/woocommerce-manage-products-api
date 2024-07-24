@@ -6,8 +6,9 @@ module EntityGeneration
       def fill_images_list(images_list, variations)
         images = []
         images << find_main_image(images_list)
-        image_count = variations.count > 5 ? 2 : 3
-        image_count = variations.count > 10 ? 1 : image_count
+
+        image_count = variations.count > 5 ? 1 : 4
+        image_count = variations.count == 4 ? 3 : image_count
         variations.each do |variation|
           variation['images'].first(image_count).each do |image|
             content = {
