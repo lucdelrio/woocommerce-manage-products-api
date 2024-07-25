@@ -10,6 +10,8 @@ class AttachmentsFixJob
     attachments_list = Attachment.where(zecat_product_id: product_list)
     products_without_attachments = Product.where.not(zecat_id: attachments_list.pluck(:zecat_product_id))
     
+    return if products_without_attachments.empty?
+
     products_without_attachments.each do |product|
       AttachmentsSetupJob.perform_in(3.minutes, self.id)
     end

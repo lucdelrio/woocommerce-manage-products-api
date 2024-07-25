@@ -20,7 +20,7 @@ class Product < ApplicationRecord
 
   def setup
     VariationsSetupJob.perform_in(10.seconds, self.id)
-    AttachmentsSetupJob.perform_in(3.minutes, self.id)
+    AttachmentsSetupJob.perform_in(20.seconds, self.id)
   end
 
   def check_variations
