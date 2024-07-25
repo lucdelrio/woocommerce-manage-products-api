@@ -2,7 +2,7 @@
 
 module EntityGeneration
   class Products
-    PRICE_INCREASE = ENV.fetch('PRICE_INCREASE', 1)
+    PRICE_INCREASE = ENV.fetch('PRICE_INCREASE', 1.0).to_f
 
     class << self
       def fill_product(product)
@@ -30,7 +30,7 @@ module EntityGeneration
 
       def fill_variation(product, variation)
         {
-          regular_price: (product['price'] * PRICE_INCREASE).to_s,
+          regular_price: (product['price'] * PRICE_INCREASE).round(2).to_s,
           sku: variation['sku'],
           manage_stock: true,
           stock_quantity: variation['stock'],
