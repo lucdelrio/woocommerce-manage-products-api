@@ -7,6 +7,7 @@ class CreateVariations < ActiveRecord::Migration[7.1]
     create_table :variations do |t|
       t.json        :variation_hash
       t.float       :regular_price
+      t.string    :country
       t.integer      :zecat_product_id
       t.integer      :zecat_variation_id
       t.integer      :woocommerce_api_product_id

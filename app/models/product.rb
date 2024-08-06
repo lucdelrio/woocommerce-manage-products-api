@@ -26,13 +26,13 @@ class Product < ApplicationRecord
   def check_variations
     return unless zecat_hash_previously_changed? && created_at < Time.zone.now - 5.minutes
 
-    Integration::Variations.create_product_variations(self.woocommerce_api_id, self.zecat_hash)
-    Integration::Attachments.create_product_media(self.woocommerce_api_id, self.zecat_hash)
+    Integration::Variations.new(self.country).create_product_variations(self.woocommerce_api_id, self.zecat_hash)
+    Integration::Attachments.new(self.country).create_product_media(self.woocommerce_api_id, self.zecat_hash)
   end
 
   def remove_from_woocommerce
-    WoocommerceApi.destroy_product_by_id(self.woocommerce_api_id)
-    Variation.where(zecat_product_id: self.zecat_id).destroy_all
-    Attachment.where(zecat_product_id: self.zecat_id).destroy_all
+    CountrySelection::woocommerce_class_name(self.country).destroy_product_by_id(self.woocommerce_api_id)
+    Variation.where(zecat_product_id: self.zecat_id, country: self.country).destroy_all
+    Attachment.where(zecat_product_id: self.zecat_id, country: self.country).destroy_all
   end
 end
