@@ -4,11 +4,11 @@ class CreateAttachments < ActiveRecord::Migration[7.1]
   def up
     create_table :attachments do |t|
       t.integer     :zecat_product_id
-      t.string    :country
+      t.string      :country, index: true
       t.integer     :woocommerce_api_product_id
-      t.datetime   :woocommerce_last_updated_at
-      t.datetime   :last_sync
-      t.json       :media_hash
+      t.datetime    :woocommerce_last_updated_at
+      t.datetime    :last_sync
+      t.json        :media_hash
 
       t.timestamps
     end

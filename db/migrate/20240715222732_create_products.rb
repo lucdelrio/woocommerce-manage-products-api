@@ -6,13 +6,13 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.string    :name
       t.text      :description
       t.float     :regular_price
-      t.string    :country
-      t.integer    :zecat_id
-      t.integer    :woocommerce_api_id
+      t.string    :country, index: true
+      t.integer   :zecat_id
+      t.integer   :woocommerce_api_id
       t.datetime  :woocommerce_last_updated_at
       t.datetime  :last_sync
       t.json      :product_hash
-      t.jsonb      :zecat_hash
+      t.jsonb     :zecat_hash
 
       t.timestamps
     end
