@@ -6,6 +6,8 @@ class ProductsIterationJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Products.iterate_products_and_create
+    CountrySelection::list.each do |country|
+      Integration::Products.new(country).iterate_products_and_create
+    end
   end
 end

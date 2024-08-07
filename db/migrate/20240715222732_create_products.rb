@@ -6,6 +6,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.string    :name
       t.text      :description
       t.float     :regular_price
+      t.string    :country
       t.integer    :zecat_id
       t.integer    :woocommerce_api_id
       t.datetime  :woocommerce_last_updated_at

@@ -7,6 +7,8 @@ class VariationsSetupJob
 
   def perform(product_id)
     product = Product.find product_id
-    Integration::Variations.create_product_variations(product.woocommerce_api_id, product.zecat_hash)
+    return if product.nil?
+
+    Integration::Variations.new(product.country).create_product_variations(product.woocommerce_api_id, product.zecat_hash)
   end
 end

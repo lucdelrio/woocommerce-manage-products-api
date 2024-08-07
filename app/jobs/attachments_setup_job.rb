@@ -7,7 +7,8 @@ class AttachmentsSetupJob
 
   def perform(product_id)
     product = Product.find product_id
+    return if product.nil?
 
-    Integration::Attachments.create_product_media(product.woocommerce_api_id, product.zecat_hash)
+    Integration::Attachments.new(product.country).create_product_media(product.woocommerce_api_id, product.zecat_hash)
   end
 end

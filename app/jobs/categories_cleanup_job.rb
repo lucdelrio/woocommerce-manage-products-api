@@ -8,6 +8,8 @@ class CategoriesCleanupJob
   def perform
     Rails.logger.info 'Running Categories Cleanup Job'
 
-    Integration::Tools::CategoriesCleanup.new.iterate_categories_and_destroy
+    CountrySelection::list.each do |country|
+      Integration::Tools::CategoriesCleanup.new(country).iterate_categories_and_destroy
+    end
   end
 end

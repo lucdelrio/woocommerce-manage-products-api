@@ -2,9 +2,9 @@
 
 module Integration
   class Categories
-    def initialize
-      @zecat_categories = ZecatApi::Families.categories
-      @woocommerces_categories = WoocommerceApi.categories
+    def initialize(zecat_country = 'Argentina')
+      @zecat_country = zecat_country
+      @zecat_categories = CountrySelection::zecat_class_name(zecat_country)::Families.categories
     end
 
     def iterate_categories_and_sync
@@ -20,10 +20,10 @@ module Integration
       local_category.update(last_sync: nil) unless remote_available(local_category)
 
       if local_category.last_sync.nil?
-        woocommerce_category = WoocommerceApi.create_category(category_hash)
+        woocommerce_category = CountrySelection::woocommerce_class_name(@zecat_country).create_category(category_hash)
         sync_local(local_category, woocommerce_category, category_hash)
       elsif category_hash.to_json != local_category.category_hash.to_json
-        woocommerce_category = WoocommerceApi.update_category(local_category.woocommerce_api_id, category_hash)
+        woocommerce_category = CountrySelection::woocommerce_class_name(@zecat_country).update_category(local_category.woocommerce_api_id, category_hash)
         sync_local(local_category, woocommerce_category, category_hash)
       else
         local_category.update(last_sync: Time.zone.now)
@@ -33,7 +33,7 @@ module Integration
     def remote_available(local_category)
       return false if local_category.woocommerce_api_id.nil?
 
-      !WoocommerceApi.category_by_id(local_category.woocommerce_api_id).nil?
+      !CountrySelection::woocommerce_class_name(@zecat_country).category_by_id(local_category.woocommerce_api_id).nil?
     end
 
     def sync_local(local_category, woocommerce_category, category_hash)
@@ -51,14 +51,15 @@ module Integration
     end
 
     def find_or_create_local_category(zecat_id, category_hash)
-      category_found = Category.find_by(zecat_id: zecat_id.to_i)
+      category_found = Category.find_by(zecat_id: zecat_id.to_i, country: @zecat_country)
 
       return category_found if category_found.present?
 
       Category.new(
         name: category_hash[:name],
         description: category_hash[:description],
-        zecat_id: zecat_id
+        zecat_id: zecat_id,
+        country: @zecat_country
       )
     end
   end

@@ -4,6 +4,7 @@ class CreateCategories < ActiveRecord::Migration[7.1]
   def up
     create_table :categories do |t|
       t.string    :name
+      t.string    :country
       t.text      :description
       t.integer    :zecat_id
       t.integer    :woocommerce_api_id

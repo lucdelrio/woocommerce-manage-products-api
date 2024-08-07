@@ -6,6 +6,8 @@ class CategoriesSetupJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Categories.new.iterate_categories_and_sync
+    CountrySelection::list.each do |country|
+      Integration::Categories.new(country).iterate_categories_and_sync
+    end
   end
 end
