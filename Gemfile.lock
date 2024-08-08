@@ -104,7 +104,7 @@ GEM
     erubi (1.13.0)
     et-orbi (1.2.11)
       tzinfo
-    ffi (1.17.0-x86_64-darwin)
+    ffi (1.17.0)
     fugit (1.11.0)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -169,6 +169,8 @@ GEM
       net-protocol
     nio4r (2.7.3)
     nokogiri (1.16.6-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     parallel (1.25.1)
     parser (3.3.4.0)
@@ -324,6 +326,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   active_interaction (~> 5.3.0)

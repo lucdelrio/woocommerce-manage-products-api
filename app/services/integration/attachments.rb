@@ -30,7 +30,7 @@ module Integration
                                                             woocommerce_api_product_id)
 
       if (media_hash != local_attachment.media_hash) || local_attachment.last_sync.nil?
-        response = WoocommerceApi.update_product(woocommerce_api_product_id, { images: media_hash })
+        response = CountrySelection::woocommerce_class_name(@zecat_country).update_product(woocommerce_api_product_id, { images: media_hash })
 
         if response.success?
           sync_local(local_attachment, JSON.parse(response.body), media_hash)
