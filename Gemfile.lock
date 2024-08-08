@@ -179,7 +179,8 @@ GEM
     pg (1.5.6)
     psych (5.1.2)
       stringio
-    puma (3.12.6)
+    puma (6.4.2)
+      nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.0)
     rack (3.1.7)
@@ -338,7 +339,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   listen (~> 3.5)
   pg (~> 1.5.6)
-  puma (~> 3.12)
+  puma (~> 6.4)
   rails (~> 7.1)
   rails_admin (~> 3.1.4)
   rspec-rails (~> 3.8.2)

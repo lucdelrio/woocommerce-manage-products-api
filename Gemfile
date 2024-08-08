@@ -26,7 +26,7 @@ gem 'sidekiq-failures', '~> 1.0.4'
 gem 'pg', '~> 1.5.6'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.12'
+gem 'puma', '~> 6.4'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
