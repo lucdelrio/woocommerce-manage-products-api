@@ -71,3 +71,34 @@ services:
           type: redis
           name: sidekiq-redis
           property: connectionString
+      - key: ZECAT_CHILE_ENDPOINT
+        sync: false
+      - key: ZECAT_ARGENTINA_ENDPOINT
+        sync: false
+      - key: WOOCOMMERCE_CHILE_ENDPOINT
+        sync: false
+      - key: WOOCOMMERCE_ARGENTINA_ENDPOINT
+        sync: false
+      - key: SIDEKIQ_REDIS_URL
+        sync: false
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: PRICE_INCREASE
+        sync: false
+      - key: HEALTH_CHECK_USERNAME
+        sync: false
+      - key: HEALTH_CHECK_PASSWORD
+        sync: false
+      - key: CHILE_WOOCOMMERCE_CONSUMER_SECRET
+        sync: false
+      - key: CHILE_WOOCOMMERCE_CONSUMER_KEY
+        sync: false
+      - key: ARGENTINA_WOOCOMMERCE_CONSUMER_SECRET
+        sync: false
+      - key: ARGENTINA_WOOCOMMERCE_CONSUMER_KEY
+        sync: false
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+
