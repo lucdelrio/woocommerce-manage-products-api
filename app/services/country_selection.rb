@@ -2,7 +2,7 @@
 class CountrySelection
   class << self
     def list
-      ['Chile']
+      ['Argentina','Chile']
     end
 
     def zecat_class_name(zecat_country = 'Argentina')
