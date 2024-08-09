@@ -12,6 +12,6 @@ class Category < ApplicationRecord
   private
 
   def remove_from_woocommerce
-    CountrySelection::woocommerce_class_name(zecat_country).destroy_category_by_id(self.woocommerce_api_id)
+    CountrySelection::woocommerce_class_name(self.country).destroy_category_by_id(self.woocommerce_api_id)
   end
 end
