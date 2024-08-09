@@ -2,7 +2,7 @@
 
 module Integration
   class Categories
-    def initialize(zecat_country = 'Argentina')
+    def initialize(zecat_country)
       @zecat_country = zecat_country
       @zecat_categories = CountrySelection::zecat_class_name(zecat_country)::Families.categories
     end
@@ -19,14 +19,12 @@ module Integration
     def sync_category(local_category, category_hash)
       local_category.update(last_sync: nil) unless remote_available(local_category)
 
-      if local_category.last_sync.nil?
+      if local_category.woocommerce_api_id.nil?
         woocommerce_category = CountrySelection::woocommerce_class_name(@zecat_country).create_category(category_hash)
         sync_local(local_category, woocommerce_category, category_hash)
       elsif category_hash.to_json != local_category.category_hash.to_json
         woocommerce_category = CountrySelection::woocommerce_class_name(@zecat_country).update_category(local_category.woocommerce_api_id, category_hash)
         sync_local(local_category, woocommerce_category, category_hash)
-      else
-        local_category.update(last_sync: Time.zone.now)
       end
     end
 

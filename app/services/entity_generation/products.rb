@@ -4,7 +4,7 @@ module EntityGeneration
   class Products
     PRICE_INCREASE = ENV.fetch('PRICE_INCREASE', 1.0).to_f
 
-    def initialize(zecat_country = 'Argentina')
+    def initialize(zecat_country)
       @country = zecat_country
     end
 

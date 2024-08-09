@@ -2,7 +2,7 @@
 
 module Integration
   class Attachments
-    def initialize(zecat_country = 'Argentina')
+    def initialize(zecat_country)
       @zecat_country = zecat_country
     end
 

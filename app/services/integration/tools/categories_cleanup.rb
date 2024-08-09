@@ -3,7 +3,7 @@
 module Integration
   module Tools
     class CategoriesCleanup
-      def initialize(zecat_country = 'Argentina')
+      def initialize(zecat_country)
         @zecat_country = zecat_country
         @zecat_categories = CountrySelection::zecat_class_name(zecat_country)::Families.categories
       end

@@ -4,7 +4,7 @@ module Integration
   module Tools
     class ProductsCleanup
       class << self
-        def iterate_products_and_destroy(zecat_country = 'Argentina')
+        def iterate_products_and_destroy(zecat_country)
           Product.all.each_slice(10) do |group|
             group.each do |local_product|
               zecat_product = CountrySelection::zecat_class_name(zecat_country)::Products.generic_product_by_id(local_product.zecat_id)

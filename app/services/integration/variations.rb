@@ -2,7 +2,7 @@
 
 module Integration
   class Variations
-    def initialize(zecat_country = 'Argentina')
+    def initialize(zecat_country)
       @zecat_country = zecat_country
     end
     
@@ -25,7 +25,7 @@ module Integration
 
         local_variation = find_or_create_local_product_variation(variation['generic_product_id'], variation['id'], woocommerce_api_product_id)
 
-        if local_variation.last_sync.nil?
+        if local_variation.woocommerce_api_product_id.nil?
           woocommerce_variation = CountrySelection::woocommerce_class_name(@zecat_country).create_product_variation(woocommerce_api_product_id,
                                                                           product_variation_hash)
 
@@ -36,8 +36,6 @@ module Integration
                                                                           product_variation_hash)
 
           sync_local(local_variation, woocommerce_variation, product_variation_hash)
-        else
-          local_variation.update(last_sync: Time.zone.now)
         end
       end
     end

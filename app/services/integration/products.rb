@@ -2,7 +2,7 @@
 
 module Integration
   class Products
-    def initialize(zecat_country = 'Argentina')
+    def initialize(zecat_country)
       @zecat_country = zecat_country
     end
 
@@ -67,7 +67,7 @@ module Integration
       
       product_hash = EntityGeneration::Products.new(@zecat_country).fill_product(full_product['generic_product'])
 
-      if local_product.last_sync.nil?
+      if local_product.woocommerce_api_id.nil?
 
         woocommerce_product = CountrySelection::woocommerce_class_name(@zecat_country).create_product(product_hash)
 
@@ -81,8 +81,6 @@ module Integration
         else
           ProductSetupJob.perform_in(20.minutes, zecat_product_id)
         end
-      else
-        local_product.update(last_sync: Time.zone.now)
       end
     end
 
