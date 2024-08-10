@@ -33,3 +33,9 @@ products_update_price_job:
   class: "ProductsUpdatePriceJob"
   queue: products_iteration
   enabled: false
+
+product_customization_job:
+  cron: "0 5 * * 1,5"
+  class: "ProductCustomizationJob"
+  queue: product_customizations
+  enabled: false

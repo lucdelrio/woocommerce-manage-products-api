@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_222758) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_09_212758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,6 +63,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_222758) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["country"], name: "index_product_attributes_on_country"
+  end
+
+  create_table "product_customizations", force: :cascade do |t|
+    t.integer "zecat_product_id"
+    t.integer "woocommerce_api_id"
+    t.integer "minimum_application_quantity"
+    t.integer "product_id"
+    t.string "country"
+    t.datetime "last_sync"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country"], name: "index_product_customizations_on_country"
   end
 
   create_table "products", force: :cascade do |t|
