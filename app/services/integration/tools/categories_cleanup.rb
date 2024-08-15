@@ -11,7 +11,7 @@ module Integration
       def iterate_categories_and_destroy
         Category.all.each_slice(10) do |group|
           group.each do |local_category|
-            zecat_category = CountrySelection::zecat_class_name(@zecat_country)::Families.category_by_id(@zecat_categories, local_category.zecat_id)
+            zecat_category = CountrySelection::zecat_class_name(@zecat_country)::Families.category_by_id(@zecat_categories, local_category.zecat_id.to_s)
             woocommerce_category = CountrySelection::woocommerce_class_name(@zecat_country).category_by_id(local_category.woocommerce_api_id)
 
             next if !zecat_category.nil? && woocommerce_category.present?
