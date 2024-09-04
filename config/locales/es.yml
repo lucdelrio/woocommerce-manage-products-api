@@ -1,0 +1,10 @@
+es:
+  hello: "Hola Mundo"
+
+  operations_mailer:
+    creation_notification:
+      subject: '%{country} -> Personalización creada'
+      title: 'Personalization creada para %{country}'
+      zecat_product_id: 'Zecat Product ID: %{zecat_product_id}'
+      woocommerce_api_id: 'Woocommerce ID: %{woocommerce_api_id}'
+      count: 'Personalización: %{count}'

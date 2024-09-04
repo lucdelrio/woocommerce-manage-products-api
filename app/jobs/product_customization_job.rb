@@ -7,5 +7,7 @@ class ProductCustomizationJob
 
   def perform
     Integration::ProductCustomizations.iterate_products_and_create_customization
+
+    Integration::ProductCustomizations.clean_customizations
   end
 end

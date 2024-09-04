@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  NOTIFICATION_EMAIL = ENV.fetch('NOTIFICATION_EMAIL', nil)
+  default from: NOTIFICATION_EMAIL
   layout 'mailer'
 end
