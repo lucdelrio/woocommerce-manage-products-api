@@ -38,7 +38,7 @@ module Integration
       woocommerce_category_id = if woocommerce_category.try(:success?)
                                   woocommerce_category.dig('id')
                                 else
-                                  JSON.parse(woocommerce_category.body)['data']['resource_id']
+                                  JSON.parse(woocommerce_category.body).dig('data','resource_id') || woocommerce_category.dig('id')
                                 end
 
       (local_category.destroy! ; return) unless woocommerce_category_id.present?
