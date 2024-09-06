@@ -9,7 +9,9 @@ class ProductCustomizationMailer < ApplicationMailer
 
     return unless SUPPORT_EMAIL.present?
     
-    mail(to: SUPPORT_EMAIL,
-         subject: I18n.t('operations_mailer.creation_notification.subject', country: product_customization.country))
+    I18n.with_locale(:es) do
+      mail(to: SUPPORT_EMAIL,
+          subject: I18n.t('operations_mailer.creation_notification.subject', country: product_customization.country))
+    end
   end
 end

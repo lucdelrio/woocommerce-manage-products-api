@@ -29,7 +29,6 @@ module ZecatProductsApi
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_woocommerce_manage_products_api_session'
-    config.i18n.default_locale = :es
     config.filter_parameters << :password
   end
 end
