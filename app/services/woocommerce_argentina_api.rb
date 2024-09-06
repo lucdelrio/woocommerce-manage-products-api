@@ -146,10 +146,7 @@ class WoocommerceArgentinaApi
 
     def update_category(id, category)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/categories/#{id.to_s}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
-      response = HTTParty.put(url, body: category.to_json, headers: { 'Content-Type': 'application/json' })
-
-      Rails.logger.debug 'Update Category'
-      JSON.parse(response.body)
+      HTTParty.put(url, body: category.to_json, headers: { 'Content-Type': 'application/json' })
     end
 
     def create_category_from_list(categories_list)

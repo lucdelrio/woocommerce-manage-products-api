@@ -7,7 +7,7 @@ class CategoriesSetupJob
 
   def perform
     CountrySelection::list.each do |country|
-      Integration::Categories.new(country).iterate_categories_and_sync
+      Object.const_get("#{country}CategoriesSetupJob").perform_async
     end
   end
 end
