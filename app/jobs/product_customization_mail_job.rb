@@ -7,6 +7,8 @@ class ProductCustomizationMailJob
     Rails.logger.info 'Started Job:  ProductCustomizationMail'
 
     pc = ProductCustomization.find product_customization_id
+    return unless pc.present?
+
     ProductCustomizationMailer.creation_notification(pc).deliver
 
     Rails.logger.info 'Ended Job:  ProductCustomizationMail'
