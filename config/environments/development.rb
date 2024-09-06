@@ -29,11 +29,29 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  NOTIFICATION_EMAIL = ENV.fetch('NOTIFICATION_EMAIL', nil)
+  NOTIFICATION_EMAIL_PASSWORD = ENV.fetch('NOTIFICATION_EMAIL_PASSWORD', nil)
+
+  config.action_mailer.perform_deliveries = true
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = true
+  
+  config.action_mailer.default_options = { from: NOTIFICATION_EMAIL }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            NOTIFICATION_EMAIL,
+    password:             NOTIFICATION_EMAIL_PASSWORD,
+    authentication:       'login',
+    enable_starttls_auto: true
+  }
+
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+
 
   config.action_mailer.perform_caching = false
 

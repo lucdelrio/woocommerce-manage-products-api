@@ -1,0 +1,15 @@
+<h1>
+  <%= t('operations_mailer.creation_notification.title', country: @product_customization.country) %>
+</h1>
+
+<p>
+  <%= t('operations_mailer.creation_notification.zecat_product_id', zecat_product_id: @product_customization.zecat_product_id) %>
+</p>
+
+<p>
+  <%= t('operations_mailer.creation_notification.woocommerce_api_id', woocommerce_api_id: @product_customization.woocommerce_api_id) %>
+</p>
+
+<p>
+  <%= t('operations_mailer.creation_notification.count', count: @product_customization.minimum_application_quantity) %>
+</p>

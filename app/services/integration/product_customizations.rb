@@ -28,6 +28,19 @@ module Integration
           zecat_product_id: product.zecat_id, woocommerce_api_id: product.woocommerce_api_id
         )
       end
+
+      def clean_customizations
+        ProductCustomization.find_in_batches do |group|
+          group.each do |customization|
+            product = Product.find_by(country: customization.country, zecat_id: customization.zecat_product_id,
+                                      id: customization.product_id, woocommerce_api_id: customization.woocommerce_api_id)
+
+            next if product.present?
+
+            product.destroy!
+          end
+        end
+      end
     end
   end
 end

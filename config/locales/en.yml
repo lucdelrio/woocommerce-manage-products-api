@@ -31,3 +31,11 @@
 
 en:
   hello: "Hello world"
+
+  operations_mailer:
+    creation_notification:
+      subject: '%{country} -> Personalization created'
+      title: 'Personalization created for %{country}'
+      zecat_product_id: 'Zecat Product ID: %{zecat_product_id}'
+      woocommerce_api_id: 'Woocommerce ID: %{woocommerce_api_id}'
+      count: 'Customization: %{count}'
