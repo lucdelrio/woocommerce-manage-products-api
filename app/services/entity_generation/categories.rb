@@ -17,7 +17,7 @@ module EntityGeneration
         {
           name: category['description'],
           description: category['meta'],
-          slug: category['url'][1..category['url'].length],
+          slug: category['url'][1..category['url']&.length],
           image: {  src: category['icon_url'] }
         }
       end
