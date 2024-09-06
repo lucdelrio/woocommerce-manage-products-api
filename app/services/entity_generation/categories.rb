@@ -14,12 +14,15 @@ module EntityGeneration
       end
 
       def category_hash(category)
-        {
+        base_hash = {
           name: category['description'],
           description: category['meta'],
-          slug: category['url'][1..category['url']&.length],
-          image: {  src: category['icon_url'] }
+          image: { src: category['icon_url'] }
         }
+
+        return base_hash unless category['url'].present?
+
+        base_hash.merge({ slug: category['url'][1..category['url']&.length] })
       end
     end
   end
