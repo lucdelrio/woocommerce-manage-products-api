@@ -3,22 +3,18 @@
 module EntityGeneration
   class Attachments
     class << self
-      def fill_images_list(images_list, variations)
+      def fill_images_list(images_list)
         images = []
         images << find_main_image(images_list)
 
-        image_count = variations.count > 5 ? 1 : 4
-        image_count = variations.count == 4 ? 3 : image_count
-        variations.each do |variation|
-          variation['images'].first(image_count).each do |image|
-            content = {
-              src: image['image_url']
-            }
-            images << content if image['main'] == false
-          end
+        images_list.each do |item|
+          content = {
+            src: item['image_url']
+          }
+          images << content if image['main'] == false
         end
 
-        return images.first(15) if images.count > 15
+        return images.first(20) if images.count > 20
 
         images
       end

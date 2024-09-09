@@ -24,13 +24,14 @@ module Integration
     def create_product_media(woocommerce_api_product_id, full_product)
       return unless full_product['images'].present?
 
-      media_hash = EntityGeneration::Attachments.fill_images_list(full_product['images'], full_product['products'])
+      media_hash = EntityGeneration::Attachments.fill_images_list(full_product['images'])
 
       local_attachment = find_or_create_local_product_media(full_product['id'],
                                                             woocommerce_api_product_id)
 
       if (media_hash != local_attachment.media_hash) || local_attachment.last_sync.nil?
-        response = CountrySelection::woocommerce_class_name(@zecat_country).update_product(woocommerce_api_product_id, { images: media_hash })
+        response = CountrySelection.woocommerce_class_name(@zecat_country).update_product(woocommerce_api_product_id,
+                                                                                          { images: media_hash })
 
         if response.success?
           sync_local(local_attachment, JSON.parse(response.body), media_hash)
@@ -43,10 +44,9 @@ module Integration
     end
 
     def find_or_create_local_product_media(zecat_product_id, woocommerce_api_product_id)
-      media_found = Attachment.find_by( zecat_product_id: zecat_product_id.to_i,
-                                        woocommerce_api_product_id: woocommerce_api_product_id.to_i,
-                                        country: @zecat_country
-                                      )
+      media_found = Attachment.find_by(zecat_product_id: zecat_product_id.to_i,
+                                       woocommerce_api_product_id: woocommerce_api_product_id.to_i,
+                                       country: @zecat_country)
 
       return media_found if media_found.present?
 
