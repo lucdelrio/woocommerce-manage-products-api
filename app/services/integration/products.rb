@@ -90,10 +90,6 @@ module Integration
       end
     end
 
-    # def remote_available(local_product)
-    #   WoocommerceApi.product_by_id(local_product.woocommerce_api_id).present?
-    # end
-
     def find_or_create_local_product(zecat_id)
       product_found = Product.find_by(zecat_id: zecat_id.to_i, country: @zecat_country)
 
@@ -107,11 +103,23 @@ module Integration
     def sync_local(local_product, woocommerce_product, product_hash, full_product)
       return unless woocommerce_product['id'].present?
 
-      local_product.update(woocommerce_last_updated_at: Time.zone.now,
-                           woocommerce_api_id: woocommerce_product['id'],
-                           name: product_hash[:name], zecat_hash: full_product,
-                           description: product_hash[:description],
-                           last_sync: Time.zone.now, product_hash: product_hash)
+      Rails.logger.info "Update/Sync Local Product #{woocommerce_product['id']}"
+
+      begin
+        local_product.update(woocommerce_last_updated_at: Time.zone.now,
+                             woocommerce_api_id: woocommerce_product['id'],
+                             name: product_hash[:name], zecat_hash: full_product,
+                             description: product_hash[:description],
+                             last_sync: Time.zone.now, product_hash: product_hash)
+      rescue Net::ReadTimeout => e
+        Rails.logger.info "Net::ReadTimeout Error | #{e.message}"
+
+        local_product.update(woocommerce_last_updated_at: Time.zone.now,
+                             woocommerce_api_id: woocommerce_product['id'],
+                             name: product_hash[:name], zecat_hash: full_product)
+        local_product.update(description: product_hash[:description],
+                             last_sync: Time.zone.now, product_hash: product_hash)
+      end
     end
   end
 end

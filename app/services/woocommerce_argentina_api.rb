@@ -83,7 +83,7 @@ class WoocommerceArgentinaApi
     def update_product(id, product)
       url = "#{WOOCOMMERCE_ENDPOINT}/products/#{id.to_s}?#{CONSUMER_KEY_AND_CONSUMER_SECRET}"
       Rails.logger.info 'Update Woocommerce Product'
-      HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' }, timeout: 120)
+      HTTParty.put(url, body: product.to_json, headers: { 'Content-Type': 'application/json' }, timeout: 300)
     end
 
     def create_product_variation(product_id, variation)

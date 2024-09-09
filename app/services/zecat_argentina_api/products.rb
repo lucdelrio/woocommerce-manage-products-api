@@ -11,7 +11,7 @@ module ZecatArgentinaApi
 
       def generic_product_by_id(product_id)
         url = "#{ZECAT_ENDPOINT}/generic_product/#{product_id}"
-        response = HTTParty.get(url, timeout: 120)
+        response = HTTParty.get(url, timeout: 120, verify: true)
         JSON.parse(response.body)
       end
 

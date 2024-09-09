@@ -18,6 +18,8 @@ module EntityGeneration
           end
         end
 
+        return images.first(15) if images.count > 15
+
         images
       end
 
