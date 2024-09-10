@@ -6,6 +6,6 @@ class ChileProductsCleanupJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Tools::ProductsCleanup.iterate_products_and_destroy('Chile')
+    # Integration::Tools::ProductsCleanup.iterate_products_and_destroy('Chile')
   end
 end
