@@ -5,7 +5,7 @@ module Integration
     class ProductsCleanup
       class << self
         def iterate_products_and_destroy(zecat_country)
-          Product.all.each_slice(10) do |group|
+          Product.all.where(country: zecat_country).each_slice(10) do |group|
             group.each do |local_product|
               zecat_product = CountrySelection::zecat_class_name(zecat_country)::Products.generic_product_by_id(local_product.zecat_id).dig('internal_code')
               woocommerce_product = CountrySelection::woocommerce_class_name(zecat_country).product_by_id(local_product.woocommerce_api_id)
