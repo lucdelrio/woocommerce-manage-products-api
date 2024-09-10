@@ -37,7 +37,7 @@ module Integration
 
             next if product.present?
 
-            product.destroy!
+            customization.destroy!
           end
         end
       end
