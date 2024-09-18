@@ -85,7 +85,7 @@ module Integration
         if response.success?
           sync_local(local_product, JSON.parse(response.body), product_hash, full_product['generic_product'])
         else
-          ProductSetupJob.perform_in(20.minutes, zecat_product_id)
+          ProductSetupJob.perform_in(20.minutes, zecat_product_id, @zecat_country)
         end
       end
     end
