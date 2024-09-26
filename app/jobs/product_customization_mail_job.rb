@@ -6,7 +6,7 @@ class ProductCustomizationMailJob
   def perform(product_customization_id)
     Rails.logger.info 'Started Job:  ProductCustomizationMail'
 
-    pc = ProductCustomization.find product_customization_id
+    pc = ProductCustomization.find_by(id: product_customization_id)
     return unless pc.present?
 
     ProductCustomizationMailer.creation_notification(pc).deliver
