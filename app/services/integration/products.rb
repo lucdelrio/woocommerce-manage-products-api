@@ -87,6 +87,8 @@ module Integration
         else
           ProductSetupJob.perform_in(20.minutes, zecat_product_id, @zecat_country)
         end
+      elsif local_product.zecat_hash != full_product['generic_product']
+        sync_local(local_product, {'id' => local_product.woocommerce_api_id}, product_hash, full_product['generic_product'])
       end
     end
 
