@@ -11,9 +11,10 @@ module Integration
 
             customization = find_or_create_customization(product)
             minimum_application_quantity = zecat_product.dig('generic_product', 'minimum_application_quantity')
-            next if customization.minimum_application_quantity == minimum_application_quantity
+            setup_price = zecat_product.dig('generic_product', 'printing_types', 0, 'setup_price')
+            next if customization.minimum_application_quantity == minimum_application_quantity && customization.setup_price == setup_price
 
-            customization.update(minimum_application_quantity: minimum_application_quantity)
+            customization.update(minimum_application_quantity: minimum_application_quantity, setup_price: setup_price)
           end
         end
       end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_09_212758) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_22_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_09_212758) do
     t.datetime "last_sync"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "setup_price"
     t.index ["country"], name: "index_product_customizations_on_country"
   end
 
