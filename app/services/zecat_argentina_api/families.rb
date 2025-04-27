@@ -5,7 +5,7 @@ module ZecatArgentinaApi
     class << self
       def categories
         url = "#{ZECAT_ENDPOINT}/family"
-        response = HTTParty.get(url)
+        response = HTTParty.get(url, headers: BEARER_TOKEN_AUTHORIZATION)
         JSON.parse(response.body)['families']
       end
 

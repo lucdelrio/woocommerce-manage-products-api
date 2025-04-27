@@ -16,8 +16,6 @@ module Integration
           )
           next unless zecat_category.present?
 
-          puts 'Category Description'
-          puts category.description
           create_products_by_category(category, @zecat_country)
         end
       end
