@@ -52,7 +52,7 @@ module Integration
     end
 
     def create_products_from_list(products_list)
-      return if products_list.empty?
+      return if (!products_list.present? || products_list&.empty?)
 
       products_list.each_slice(4) do |product_group|
         product_group.each do |zecat_product|
