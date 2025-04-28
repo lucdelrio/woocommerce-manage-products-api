@@ -17,6 +17,7 @@ module EntityGeneration
         base_hash = {
           name: category['description'],
           description: category['meta'],
+          show: category['show'],
           image: { src: category['icon_url'] }
         }
 

@@ -52,6 +52,8 @@ module Integration
     end
 
     def create_products_from_list(products_list)
+      return if products_list.empty?
+
       products_list.each_slice(4) do |product_group|
         product_group.each do |zecat_product|
           next if zecat_product['isKit'] == true
@@ -86,7 +88,8 @@ module Integration
           ProductSetupJob.perform_in(20.minutes, zecat_product_id, @zecat_country)
         end
       elsif local_product.zecat_hash != full_product['generic_product']
-        sync_local(local_product, {'id' => local_product.woocommerce_api_id}, product_hash, full_product['generic_product'])
+        sync_local(local_product, { 'id' => local_product.woocommerce_api_id }, product_hash,
+                   full_product['generic_product'])
       end
     end
 
