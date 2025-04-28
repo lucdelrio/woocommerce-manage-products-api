@@ -12,13 +12,15 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
+/log
+/tmp
 !/log/.keep
 !/tmp/.keep
 
+/vendor
+
 # Ignore uploaded files in development
-/storage/*
+/storage
 !/storage/.keep
 
 .byebug_history
@@ -31,5 +33,6 @@
 .env
 dump.rdb
 
-/vendor
-tmp/*
+id_ed25519
+id_ed25519.pub
+Procfile
