@@ -18,6 +18,8 @@ module Integration
 
             if !zecat_category.nil? && !woocommerce_category.present?
               local_category.update(last_sync: nil)
+            elsif zecat_category&.dig('show') == false
+              local_category.destroy!
             elsif zecat_category.nil?
               local_category.destroy!
             end
