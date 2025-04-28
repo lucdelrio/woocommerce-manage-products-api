@@ -51,7 +51,9 @@ module Integration
          return)
       end
 
-      local_category.update(woocommerce_api_id: woocommerce_category_id.to_s,
+      local_category.update(name: category_hash[:name],
+                            description: category_hash[:description],
+                            woocommerce_api_id: woocommerce_category_id.to_s,
                             woocommerce_last_updated_at: Time.zone.now,
                             last_sync: Time.zone.now, category_hash: category_hash)
     end
