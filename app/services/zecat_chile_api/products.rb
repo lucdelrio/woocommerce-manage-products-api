@@ -24,6 +24,8 @@ module ZecatChileApi
 
       def get_generic_product_by_page(page_number, limit)
         url = "#{ZECAT_ENDPOINT}/generic_product?page=#{page_number}&limit=#{limit}"
+        Rails.logger.info('get_generic_product_by_page')
+        Rails.logger.info(BEARER_TOKEN_AUTHORIZATION)
         response = HTTParty.get(url, headers: BEARER_TOKEN_AUTHORIZATION, timeout: 120)
 
         JSON.parse(response.body)

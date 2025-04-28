@@ -24,7 +24,9 @@ module Integration
     def create_products_by_category(category)
       products_list = CountrySelection.zecat_class_name(@zecat_country)::Products.get_generic_product_by_family_with_pages(category.zecat_id, '1',
                                                                                                                            '10')
-
+      Rails.logger.info("create_products_by_category")
+      Rails.logger.info("CATEGORY #{category.zecat_id}")
+      Rails.logger.info("PRODUCTS LIST #{products_list}")
       create_products_from_list(products_list['generic_products'])
 
       return if products_list['total_pages'] == 1
@@ -38,6 +40,10 @@ module Integration
 
     def iterate_products_and_create
       products_list = CountrySelection.zecat_class_name(@zecat_country)::Products.get_generic_product_by_page('1', '50')
+
+      Rails.logger.info("iterate_products_and_create")
+      # Rails.logger.info("CATEGORY #{category.zecat_id}")
+      Rails.logger.info("PRODUCTS LIST #{products_list}")
 
       create_products_from_list(products_list['generic_products'])
 
