@@ -83,7 +83,9 @@ services:
         sync: false
       - key: RAILS_MASTER_KEY
         sync: false
-      - key: PRICE_INCREASE
+      - key: CHILE_PRICE_INCREASE
+        sync: false
+      - key: ARGENTINA_PRICE_INCREASE
         sync: false
       - key: HEALTH_CHECK_USERNAME
         sync: false

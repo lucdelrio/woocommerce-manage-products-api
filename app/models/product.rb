@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   rails_admin do
     list do
       exclude_fields :product_hash, :zecat_hash, :created_at, :updated_at
+      include_fields :id, :name, :description, :regular_price, :zecat_id, :country, :woocommerce_api_id, :woocommerce_last_updated_at
     end
 
     # update do
