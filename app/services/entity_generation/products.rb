@@ -2,10 +2,9 @@
 
 module EntityGeneration
   class Products
-    PRICE_INCREASE = ENV.fetch('PRICE_INCREASE', 1.0).to_f
-
     def initialize(zecat_country)
       @country = zecat_country
+      @price_increase = ENV.fetch("#{@country.upcase}_PRICE_INCREASE", 1.0).to_f
     end
 
     def fill_product(product)
@@ -33,7 +32,7 @@ module EntityGeneration
 
     def fill_variation(product, variation)
       {
-        regular_price: (product['price'] * PRICE_INCREASE).round(2).to_s,
+        regular_price: (product['price'] * @price_increase).round(2).to_s,
         sku: variation['sku'],
         manage_stock: true,
         stock_quantity: variation['stock'],
