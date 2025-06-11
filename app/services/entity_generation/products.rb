@@ -2,6 +2,10 @@
 
 module EntityGeneration
   class Products
+    PROHIBITED_SYMBOLS = ['.', '-', '..', '...']
+    PRINTING_TYPE_ATTRIBUTE = ENV.fetch('PRINTING_TYPE_ATTRIBUTE', 'Tipo de Aplicación')
+    PRINTING_TYPE_DEFAULT_VALUE = ENV.fetch('PRINTING_TYPE_DEFAULT_VALUE', 'Sin Aplicación')
+
     def initialize(zecat_country)
       @country = zecat_country
       @price_increase = ENV.fetch("#{@country.upcase}_PRICE_INCREASE", 1.0).to_f
@@ -13,7 +17,7 @@ module EntityGeneration
         type: product['products'].empty? ? 'simple' : 'variable',
         description: product['description'],
         categories: add_categories(product),
-        attributes: variation_names(product['products'])
+        attributes: variation_names(product, product['products'])
         # tags: product.dig('tag')
       }
     end
@@ -42,7 +46,7 @@ module EntityGeneration
           width: product.dig('dimensions', 'width').to_s,
           height: product.dig('dimensions', 'height').to_s
         },
-        attributes: fill_variation_attributes(variation)
+        attributes: product.dig('buyBySize') ? fill_apparel_variation_attributes(variation) : fill_variation_attributes(variation)
       }
     end
 
@@ -74,13 +78,13 @@ module EntityGeneration
     #       "S"
     #   ]
     # }]
-    def variation_names(variations)
+    def variation_names(product, variations)
       variation_attributes = []
       options_list = []
       return if variations.empty?
 
       variations.each do |variation|
-        variation_attributes << fill_variation_attributes(variation)
+        variation_attributes << (product.dig('buyBySize') ? fill_apparel_variation_attributes(variation) : fill_variation_attributes(variation))
       end
 
       variation_attributes.first.each do |option|
@@ -99,10 +103,10 @@ module EntityGeneration
         end
       end
 
-      options_list
+      options_list << add_printing_types(product)
     end
 
-    def create_option(product_attribute_id, description)
+    def find_or_create_option(product_attribute_id, description)
       term = ProductAttributeTerm.find_by(woocommerce_api_product_attribute_id: product_attribute_id.to_i,
                                           name: description, country: @country)
       return if term.present?
@@ -123,27 +127,50 @@ module EntityGeneration
       #                                                                        JSON.parse(response.body)['data']['resource_id'])
     end
 
-    def fill_variation_attributes(variation)
-      prohibited_symbols = ['.', '-', '..', '...']
+    def fill_apparel_variation_attributes(variation)
       response = []
 
-      product_attribute_1 = find_or_create_product_attribute_by_name(variation['attribute_1'])
-      create_option(product_attribute_1.woocommerce_api_id, variation['attribute_1'])
+      product_attribute_1 = find_or_create_product_attribute_by_name('Talle')
+      find_or_create_option(product_attribute_1.woocommerce_api_id, variation['attribute_1'])
       response << variation_attribute(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
 
-      if variation['attribute_2'].present? && !variation['element_description_2'].in?(prohibited_symbols)
-        product_attribute_2 = find_or_create_product_attribute_by_name(variation['attribute_2'])
-        create_option(product_attribute_2.woocommerce_api_id, variation['attribute_2'])
+      if variation['attribute_2'].present? && !variation['element_description_2'].in?(PROHIBITED_SYMBOLS)
+        product_attribute_2 = find_or_create_product_attribute_by_name('Color')
+        find_or_create_option(product_attribute_2.woocommerce_api_id, variation['attribute_2'])
         response << variation_attribute(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
       end
 
-      if variation['attribute_3'].present? && !variation['element_description_3'].in?(prohibited_symbols)
+      if variation['attribute_3'].present? && !variation['element_description_3'].in?(PROHIBITED_SYMBOLS) && variation.dig('attribute_3') != "Sin Atributos"
         product_attribute_3 = find_or_create_product_attribute_by_name(variation['attribute_3'])
-        create_option(product_attribute_3.woocommerce_api_id, variation['attribute_3'])
+        find_or_create_option(product_attribute_3.woocommerce_api_id, variation['attribute_3'])
         response << variation_attribute(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
       end
 
       response
+    end
+
+    def fill_variation_attributes(variation)
+      response = []
+
+      product_attribute_1 = find_or_create_product_attribute_by_name('Color')
+      find_or_create_option(product_attribute_1.woocommerce_api_id, variation['attribute_1'])
+
+      if variation['attribute_2'].present? && !variation['element_description_2'].in?(PROHIBITED_SYMBOLS) && variation['attribute_3'].present? && variation.dig('attribute_3') != "Sin Atributos" && !variation['element_description_3'].in?(PROHIBITED_SYMBOLS)
+        response << variation_attribute(product_attribute_1.woocommerce_api_id, "#{variation['element_description_1']} / #{variation['element_description_2']} / #{variation['element_description_3']}")
+      elsif variation['attribute_2'].present? && !variation['element_description_2'].in?(PROHIBITED_SYMBOLS)
+        response << variation_attribute(product_attribute_1.woocommerce_api_id, "#{variation['element_description_1']} / #{variation['element_description_2']}")
+      else
+        response << variation_attribute(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
+      end
+
+      response
+    end
+
+    def add_printing_types(product)
+      application_attribute = find_or_create_product_attribute_by_name(PRINTING_TYPE_ATTRIBUTE)
+      variation_attribute = variation_attributes_for_product(application_attribute.woocommerce_api_id)
+      variation_attribute[:options].concat([PRINTING_TYPE_DEFAULT_VALUE], (product.zecat_hash&.dig('printing_types') || [])&.pluck('name').uniq)
+      variation_attribute
     end
 
     def variation_attribute(product_attribute_id, option)
