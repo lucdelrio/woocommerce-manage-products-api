@@ -169,7 +169,7 @@ module EntityGeneration
     def add_printing_types(product)
       application_attribute = find_or_create_product_attribute_by_name(PRINTING_TYPE_ATTRIBUTE)
       variation_attribute = variation_attributes_for_product(application_attribute.woocommerce_api_id)
-      variation_attribute[:options].concat([PRINTING_TYPE_DEFAULT_VALUE], (product.zecat_hash&.dig('printing_types') || [])&.pluck('name').uniq)
+      variation_attribute[:options].concat([PRINTING_TYPE_DEFAULT_VALUE], (product&.dig('printing_types') || [])&.pluck('name').uniq)
       variation_attribute
     end
 
