@@ -53,3 +53,6 @@ Created for setting all the categories, products and their variants on Woocommer
   * NOTIFICATION_EMAIL
   * NOTIFICATION_EMAIL_PASSWORD
   * SUPPORT_EMAIL
+
+  * PRINTING_TYPE_ATTRIBUTE
+  * PRINTING_TYPE_DEFAULT_VALUE
