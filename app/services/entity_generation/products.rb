@@ -3,6 +3,7 @@
 module EntityGeneration
   class Products
     PROHIBITED_SYMBOLS = ['.', '-', '..', '...']
+    PROHIBITED_VARIANTS = ['Telas', 'Material']
     PRINTING_TYPE_ATTRIBUTE = ENV.fetch('PRINTING_TYPE_ATTRIBUTE', 'Tipo de Aplicación')
     PRINTING_TYPE_DEFAULT_VALUE = ENV.fetch('PRINTING_TYPE_DEFAULT_VALUE', 'Sin Aplicación')
 
@@ -130,20 +131,40 @@ module EntityGeneration
     def fill_apparel_variation_attributes(variation)
       response = []
 
-      product_attribute_1 = find_or_create_product_attribute_by_name('Talle')
-      find_or_create_option(product_attribute_1.woocommerce_api_id, variation['attribute_1'])
-      response << variation_attribute(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
+      if ["Talle", "Tallle", "Talles"].include?(variation['attribute_1']) && variation['attribute_2'] == "Color" 
+        product_attribute_1 = find_or_create_product_attribute_by_name('Talle')
+        find_or_create_option(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
+        response << variation_attribute(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
 
-      if variation['attribute_2'].present? && !variation['element_description_2'].in?(PROHIBITED_SYMBOLS)
-        product_attribute_2 = find_or_create_product_attribute_by_name('Color')
-        find_or_create_option(product_attribute_2.woocommerce_api_id, variation['attribute_2'])
-        response << variation_attribute(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
-      end
+        if variation['attribute_2'].present? && !variation['element_description_2'].in?(PROHIBITED_SYMBOLS)
+          product_attribute_2 = find_or_create_product_attribute_by_name('Color')
+          find_or_create_option(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
+          response << variation_attribute(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
+        end
+        
+        if variation['attribute_3'].present? && !variation['element_description_3'].in?(PROHIBITED_SYMBOLS) && !variation['attribute_3'].in?(PROHIBITED_VARIANTS)
+          product_attribute_3 = find_or_create_product_attribute_by_name(variation['attribute_3'])
+          find_or_create_option(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
+          response << variation_attribute(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
+        end
+      else
+        if variation['attribute_1'].present? && !variation['attribute_1'].in?(PROHIBITED_VARIANTS) && !variation['element_description_1'].in?(PROHIBITED_SYMBOLS)
+          product_attribute_1 = find_or_create_product_attribute_by_name(variation['attribute_1'])
+          find_or_create_option(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
+          response << variation_attribute(product_attribute_1.woocommerce_api_id, variation['element_description_1'])
+        end
 
-      if variation['attribute_3'].present? && !variation['element_description_3'].in?(PROHIBITED_SYMBOLS) && variation.dig('attribute_3') != "Sin Atributos"
-        product_attribute_3 = find_or_create_product_attribute_by_name(variation['attribute_3'])
-        find_or_create_option(product_attribute_3.woocommerce_api_id, variation['attribute_3'])
-        response << variation_attribute(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
+        if variation['attribute_2'].present? && !variation['attribute_2'].in?(PROHIBITED_VARIANTS) && !variation['element_description_2'].in?(PROHIBITED_SYMBOLS)
+          product_attribute_2 = find_or_create_product_attribute_by_name(variation['attribute_2'])
+          find_or_create_option(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
+          response << variation_attribute(product_attribute_2.woocommerce_api_id, variation['element_description_2'])
+        end
+        
+        if variation['attribute_3'].present? && !variation['attribute_3'].in?(PROHIBITED_VARIANTS) && !variation['element_description_3'].in?(PROHIBITED_SYMBOLS)
+          product_attribute_3 = find_or_create_product_attribute_by_name(variation['attribute_3'])
+          find_or_create_option(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
+          response << variation_attribute(product_attribute_3.woocommerce_api_id, variation['element_description_3'])
+        end
       end
 
       response
