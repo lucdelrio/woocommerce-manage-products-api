@@ -7,7 +7,9 @@ class ProductsUpdatePriceJob
 
   def perform
     CountrySelection::list.each do |country|
-      Integration::Products.new(country).iterate_products_and_create
+      Product.where(country: country).find_each do |product|
+        ProductSetupJob.perform_in(20.seconds, product.zecat_id, country)
+      end
     end
   end
 end

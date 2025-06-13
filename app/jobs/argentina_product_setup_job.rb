@@ -6,6 +6,6 @@ class ArgentinaProductSetupJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Products.new('Argentina').iterate_products_and_create
+    ZecatSync::ProductIterationForSync.new('Argentina').iterate_products_and_create
   end
 end
