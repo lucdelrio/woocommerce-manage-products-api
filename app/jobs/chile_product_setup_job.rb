@@ -6,6 +6,6 @@ class ChileProductSetupJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Products.new('Chile').iterate_products_and_create
+    ZecatSync::ProductIterationForSync.new('Chile').iterate_products_and_create
   end
 end

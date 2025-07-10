@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
-module Integration
-  class Categories
+module ZecatSync
+  # This service is responsible for synchronizing categories from Zecat to the local database and WooCommerce.
+  # It iterates through all categories in Zecat, creates or updates them in the local database,
+  # and synchronizes them with WooCommerce.
+  #
+  class CategorySync
     def initialize(zecat_country)
       @zecat_country = zecat_country
       @zecat_categories = CountrySelection.zecat_class_name(zecat_country)::Families.categories
@@ -14,11 +18,11 @@ module Integration
 
         local_category = find_or_create_local_category(category['id'], category_hash)
 
-        sync_category(local_category, category_hash)
+        sync_category_with_woocommerce(local_category, category_hash)
       end
     end
 
-    def sync_category(local_category, category_hash)
+    def sync_category_with_woocommerce(local_category, category_hash)
       local_category.update(last_sync: nil) unless remote_available(local_category)
 
       if local_category.woocommerce_api_id.nil?
