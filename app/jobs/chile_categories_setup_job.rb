@@ -6,6 +6,6 @@ class ChileCategoriesSetupJob
   sidekiq_options retry: false
 
   def perform
-    Integration::Categories.new('Chile').iterate_categories_and_sync
+    ZecatSync::CategorySync.new('Chile').iterate_categories_and_sync
   end
 end
