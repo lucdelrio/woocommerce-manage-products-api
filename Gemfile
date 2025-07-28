@@ -3,9 +3,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.1'
+ruby '3.4.4'
 
-gem 'active_interaction', '~> 5.3.0'
+gem 'active_interaction', '~> 5.4.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.18.3', require: false
@@ -14,8 +14,8 @@ gem 'health_check', '~> 3.1.0'
 gem 'httparty', '~> 0.22.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1'
-gem 'rails_admin', '~> 3.1.4'
+gem 'rails', '~> 8.0.0.1'
+gem 'rails_admin', '~> 3.3.0'
 
 # CronJobs
 gem 'sidekiq', '~> 7.3.0'
@@ -46,10 +46,11 @@ end
 group :development do
   gem 'listen', '~> 3.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '~> 4.0.0'
+  gem 'spring', '~> 4.3.0'
   gem 'spring-watcher-listen', '~> 2.1.0'
 end
 
 group :test do
   gem 'simplecov', '~> 0.12.0'
 end
+
